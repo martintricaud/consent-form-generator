@@ -29,272 +29,179 @@
 		<script type="text/javascript" src="js/moment.min.js"></script>
 		<script type="text/javascript" src="js/daterangepicker.min.js"></script>
 		<script type="text/javascript" src="js/FileSaver.min.js"></script> 
-		
 		<div id="mainFrame" class="vertical-center">
-			<div id="demographicsPage" class="whiteBox container rounded">
-				<form id="demographicsForm" class="form-horizontal" action="javascript:generate(this);">
-					<div id="input">
+	<div id="demographicsPage" class="whiteBox container rounded">
+		<form id="demographicsForm" class="form-horizontal" action="javascript:generate(this);">
+			<div id="input">
+				<div class="row">
+					<div class="col mb-2 ">
+						<a href="https://hci-studies.org"><img src="img/frankfurtlogo.png" class="float-end mr-3" width="140px" alt="Logo FRA-UAS"></a>
+					</div>
+				</div>
+
+				<div class="row mt-3">
+					<div class="col">
+						<h2 id="demographicsTitle">Générateur de consentement éclairé</h2>
+					</div>
+				</div>
+				<hr />
+				<div class="row mt-3">
+					<div class="col mb-1">
+						Obtenir le consentement éclairé garantit l'autonomie et la vie privée des utilisateurs, ainsi que leur compréhension des risques et bénéfices potentiels de votre étude en IHM. Pour générer un formulaire de consentement éclairé pour vos participant·es, vous pouvez utiliser ce générateur. Ce consentement ne convient pas aux groupes vulnérables (enfants, personnes en situation de handicap, prisonnier·es) ni aux études comportant des risques (ex. médicales). <a href="https://europa.eu/youreurope/business/dealing-with-customers/data-protection/data-protection-gdpr/index_en.htm" target="_blank">Si vous collectez des données personnelles dans l’UE, le RGPD s’applique</a> et impose des règles strictes fondées sur le consentement. Ce consentement doit être libre, spécifique, éclairé et explicite, par exemple via une case cochée ou une signature. <strong>Le consentement doit être donné par un acte positif.</strong> Veuillez contacter votre encadrant·e en cas de doute.
+					</div>
+				</div>
+				<hr />
+				<div class="row mt-3 ">
+					<div class="col-4"><span id="institutionText">Votre établissement</span><span class="text-danger">*</span><br /></div>
+					<div class="col-8"><select class="form-control" name="selectInstitution" required></select></div>
+				</div>
+				<div class="row" id="otherInstitutionRow">
+					<div class="col-4"><span id="otherInstitutionText"></span><br /></div>
+					<div class="col-8"><small>Indiquez le nom, l’adresse complète (rue + n°, code postal + ville, pays)</small><input class="form-control" name="setOtherInstitution" id="otherInstitution"></input></div>
+				</div>
+				<div class="row mt-3 ">
+					<div class="col-4"><span id="researchText">Type de recherche</span><span class="text-danger">*</span><br /></div>
+					<div class="col-8"><select class="form-control" name="selectStudyType" required></select></div>
+				</div>
+				<div class="row mt-3 ">
+					<div class="col-4"><span id="languageText">Langue du consentement</span><span class="text-danger">*</span><br /></div>
+					<div class="col-8"><select class="form-control" name="selectLanguage" required></select></div>
+				</div>
+				<div class="row mt-3 ">
+					<div class="col-4"><span id="titleText">Titre de l’étude</span><span class="text-danger">*</span><br /></div>
+					<div class="col-8"><input class="form-control" name="setTitle" required></input></div>
+				</div>
+				<div class="row mt-3 ">
+					<div class="col-4"><span id="purposeText">Expliquez le but (en une phrase)</span><span class="text-danger">*</span><br /></div>
+					<div class="col-8"><input class="form-control" name="setPurpose" required></input></div>
+				</div>
+				<div class="row mt-3 ">
+					<div class="col-4"><span id="goalText">Expliquez l’objectif (en une phrase)</span><span class="text-danger">*</span><br /></div>
+					<div class="col-8"><input class="form-control" name="setGoal" required></input></div>
+				</div>
+				<div class="row mt-3 ">
+					<div class="col-4"><span id="languageText">Période estimée de l’étude</span><span class="text-danger">*</span><br /></div>
+					<div class="col-3"><input id="daterangepicker" class="form-control" type="text" name="daterange"/></div>
+				</div>
+				<div class="row mt-3 ">
+					<div class="col-4"><span id="durationText">Durée estimée de chaque session</span><span class="text-danger">*</span><br /></div>
+					<div class="col-2"><input class="form-control" name="setDuration" type='number' min="1" max="999" step="1" value="60" required></input></div>
+					<div class="col-3"><select class="form-control" name="selectDurationUnit" required></select></div>
+				</div>
+				<div class="row mt-3 ">
+					<div class="col-4"><span id="durationText">Nombre estimé de participant·es</span><span class="text-danger">*</span><br /></div>
+					<div class="col-2"><input class="form-control" name="setParticipants" type='number' min="1" max="999" step="1" value="24" required></input></div>
+					<div class="col-3"></div>
+				</div>
+				<div class="row mt-3 ">
+					<div class="col-4"><span id="studyOptionsText">Options de l’étude</span><br /></div>
+					<div class="col ml-4">
 						<div class="row">
-							<div class="col mb-2 ">
-								<a href="https://hci-studies.org"><img src="img/frankfurtlogo.png" class="float-end mr-3" width="140px" alt="FRA-UAS Logo"></a>
-							</div>
-						</div>
-						
-						<div class="row mt-3">
 							<div class="col">
-								<h2 id="demographicsTitle">Informed Consent Generator</h2>
+								<input type="checkbox" class="form-check-input" name="repeatedParticipationAllowed" id="repeatedParticipationAllowed">
+								<label class="form-check-label" for="repeatedParticipationAllowed">Autoriser la participation multiple</label>
 							</div>
-						</div>
-						<hr />
-						<div class="row mt-3">
-							<div class="col mb-1">
-								Obtaining informed consent ensures the users' autonomy and privacy, and that the users are aware of potential risks and benefits of your HCI study. To get an informed consent form for your participants use can use this generator. This informed consent is not suitable for vulnerable groups (children, disabled, prisoners) or when any harm can occur (medical studies). <a href="https://europa.eu/youreurope/business/dealing-with-customers/data-protection/data-protection-gdpr/index_en.htm" target="_blank">When you collect any personal information in the EU, the GDPR applies</a> and set strict rules for processing the data and is based on consent. That consent should be freely given, specific, informed and unambiguous by way of a request presented in clear and plain language. <strong>Consent should be given by an affirmative act, such as checking a box online or signing the form.</strong> Please reach out to your superviser in case of any requests.
-							</div>
-						</div>
-						<hr />
-						<div class="row mt-3 ">
-							<div class="col-4"><span id="institutionText">Your Institution</span><span class="text-danger">*</span><br /></div> 
-							<div class="col-8"><select class="form-control" name="selectInstitution" required></select></div>
-						</div>
-						<div class="row" id="otherInstitutionRow">
-							<div class="col-4"><span id="otherInstitutionText"></span><br /></div>
-							<div class="col-8"><small>Enter the name, street + no., ZIP no. + city, and country of your institution</small><input class="form-control" name="setOtherInstitution" id="otherInstitution"></input></div>
-						</div> 
-						<div class="row mt-3 ">
-							<div class="col-4"><span id="researchText">Kind of research</span><span class="text-danger">*</span><br /></div>
-							<div class="col-8"><select class="form-control" name="selectStudyType" required></select></div>
-						</div>
-						<div class="row mt-3 ">
-							<div class="col-4"><span id="languageText">Informed Consent Language</span><span class="text-danger">*</span><br /></div>
-							<div class="col-8"><select class="form-control" name="selectLanguage" required></select></div>
-						</div>
-						<div class="row mt-3 ">
-							<div class="col-4"><span id="titleText">Title of your Research</span><span class="text-danger">*</span><br /></div>
-							<div class="col-8"><input class="form-control" name="setTitle" required></input></div>
-						</div> 
-						<div class="row mt-3 ">
-							<div class="col-4"><span id="purposeText">Explain the purpose (one sentence)</span><span class="text-danger">*</span><br /></div>
-							<div class="col-8"><input class="form-control" name="setPurpose" required></input></div>
-						</div> 
-						<div class="row mt-3 ">
-							<div class="col-4"><span id="goalText">Explain the goal (one sentence)</span><span class="text-danger">*</span><br /></div>
-							<div class="col-8"><input class="form-control" name="setGoal" required></input></div>
-						</div> 
-						<!--<div class="row mt-3 ">
-							<div class="col-4"><span id="procedureText">Procedure (in 4-6 steps)</span><span class="text-danger">*</span><br /></div>
-							<div class="col-8"><textarea rows="4" class="form-control" name="procedure" required></textarea></div>
-						</div> -->
-						<div class="row mt-3 ">
-							<div class="col-4"><span id="languageText">Estimated study date range</span><span class="text-danger">*</span><br /></div> 
-							<div class="col-3"><input id="daterangepicker" class="form-control" type="text" name="daterange"/></div>
-						</div>
-						<div class="row mt-3 ">
-							<div class="col-4"><span id="durationText">Estimated trial duration</span><span class="text-danger">*</span><br /></div>
-							<div class="col-2"><input class="form-control" name="setDuration" type='number' min="1" max="999" step="1" value="60" required></input></div>
-							<div class="col-3"><select class="form-control" name="selectDurationUnit" required></select></div>
-						</div> 
-						<div class="row mt-3 ">
-							<div class="col-4"><span id="durationText">Estimated number of participants</span><span class="text-danger">*</span><br /></div>
-							<div class="col-2"><input class="form-control" name="setParticipants" type='number' min="1" max="999" step="1" value="24" required></input></div>
-							<div class="col-3"></div>
-						</div> 
-						<div class="row mt-3 ">
-							<div class="col-4"><span id="studyOptionsText">Study options</span><br /></div>
-							<div class="col ml-4">
-								<div class="row">
-									<div class="col">
-										<input type="checkbox" class="form-check-input" name="repeatedParticipationAllowed" id="repeatedParticipationAllowed">
-										<label class="form-check-label" for="repeatedParticipationAllowed">Allow repeated participation</label>
-									</div> 
-									<div class="col"><input type="checkbox" class="form-check-input" name="uncomfortableQuestions" id="uncomfortableQuestions">
-										<label class="form-check-label" for="uncomfortableQuestions">Interview questions</label>
-									</div> 
-								</div> 	 
-							</div> 	 
-						</div> 
-						<div class="row mt-3 ">
-							<div class="col-4"><span id="compensationText">Compensation</span><span class="text-danger">*</span><br /></div>
-							<div class="col-8"><select class="form-control" name="selectCompensation" required></select></div>
-						</div> 
-						<div class="row mt-3 ">
-							<div class="col-4"><span id="procedureText">Procedure (in 4-8 steps)</span><span class="text-danger">*</span><br /></div>
-							<div class="col-8"> 
-								<div class="textbox-wrapper input-append">
-									<div class="input-group"> 
-										<div class="input-group mb-1">
-											<input type="text" class="form-control procedureStepText" placeholder="Describe your procedure step" aria-describedby="button-addon2">
-											<button class="btn custom-addStep btn-success add-textbox" type="button" id="button-addon2">+</button>
-										</div> 
-									</div>
-								</div> 
-								<small>Click on (+) to add a procedure step and (-) to remove it.</small>
-							</div>
-						</div> 
-						<div class="row mt-3 ">
-							<div class="col-4"><span id="recordingsText">Collected data</span></div>
-							<div class="col-8">
-								<div class="row  row-cols-3 "> 
-									<div class="col">
-										<div class="form-check form-check-inline">
-											<input class="form-check-input" type="checkbox" name="recordDemographics" id="recordDemographics" checked required>
-											<label class="form-check-label" for="recordDemographics">Demographics</label>
-											<span class="text-danger">*</span>
-										</div>
-									</div>
-									<div class="col">
-										<div class="form-check form-check-inline">
-											<input class="form-check-input" type="checkbox" name="recordContactData" id="recordContactData">
-											<label class="form-check-label" for="recordContactData">Contact data (E-Mails)</label>
-										</div>
-									</div>
-									<div class="col">
-										<div class="form-check form-check-inline">
-											<input class="form-check-input" type="checkbox" name="recordInput" id="recordInput" checked>
-											<label class="form-check-label" for="recordInput">User input</label>
-										</div> 
-									</div> 
-									<div class="col">
-										<div class="form-check form-check-inline">
-											<input class="form-check-input" type="checkbox" name="recordNotes" id="recordNotes" checked>
-											<label class="form-check-label" for="recordNotes">Manual notes</label>
-										</div>
-									</div>
-									<div class="col">
-										<div class="form-check form-check-inline">
-											<input class="form-check-input" type="checkbox" name="recordScreen" id="recordScreen">
-											<label class="form-check-label" for="recordScreen">Screen capture</label>
-										</div>
-									</div>
-									<div class="col">
-										<div class="form-check form-check-inline">
-											<input class="form-check-input" type="checkbox" name="recordPhysio" id="recordPhysio">
-											<label class="form-check-label" for="recordPhysio">Physiological data</label>
-										</div> 
-									</div> 
-									<div class="col">
-										<div class="form-check form-check-inline">
-											<input class="form-check-input" type="checkbox" name="recordPhotos" id="recordPhotos">
-											<label class="form-check-label" for="recordPhotos">Photos</label>
-										</div>
-									</div>
-									<div class="col">
-										<div class="form-check form-check-inline">
-											<input class="form-check-input" type="checkbox" name="recordAudio" id="recordAudio">
-											<label class="form-check-label" for="recordAudio">Audio/speech</label>
-										</div> 
-									</div> 
-									<div class="col">
-										<div class="form-check form-check-inline">
-											<input class="form-check-input" type="checkbox" name="recordVideos" id="recordVideos">
-											<label class="form-check-label" for="recordVideos">Videos</label>
-										</div>  
-									</div>  
-									<div class="col">
-										<div class="form-check form-check-inline">
-											<input class="form-check-input" type="checkbox" name="recordMotion" id="recordMotion">
-											<label class="form-check-label" for="recordMotion">Motion tracking data</label>
-										</div> 
-									</div> 
-									<div class="col">
-										<div class="form-check form-check-inline"> 
-											<input class="form-check-input" type="checkbox" name="recordBodyMetrics" id="recordBodyMetrics">
-											<label class="form-check-label" for="recordBodyMetrics">Body metrics</label>
-										</div> 
-									</div> 
-									<div class="col">
-										<div class="form-check form-check-inline">
-											<input class="form-check-input" type="checkbox" name="recordEye" id="recordEye">
-											<label class="form-check-label" for="recordEye">Eye/head movements</label>
-										</div>
-									</div>
-								</div> 						
-							</div> 						
-						</div> 
-						<div class="row mt-3 ">
-							<div class="col-4"><span id="durationText">When do you delete the raw data?</span><span class="text-danger">*</span><br /></div> 
-							<div class="col-8"><select class="form-control" name="selectDateOfDataEnd" required></select></div>
-						</div> 
-						<div class="row mt-3 ">
-							<div class="col-4"><span id="selectAnonymizationText">Will you anonymize the raw data?</span><span class="text-danger">*</span><br /></div>
-							<div class="col-8"><select class="form-control" name="selectAnonymization" required></select></div>
-						</div> 
-						<div class="row mt-3 ">
-							<div class="col-4"><span id="selectAnonymizationText">How will you make the data public?</span><span class="text-danger">*</span><br /></div>
-							<div class="col-8"><select class="form-control" name="selectPublication" required></select></div>
-						</div> 
-						<div class="row mt-3 ">
-							<div class="col-4"><span id="researchersNameText">Principal investigator (PI)</span><span class="text-danger">*</span><br /></div>
-							<div class="col-8"><input class="form-control" name="setPrincipleInvestigator" required></input></div>
-						</div>
-						<div class="row mt-3 ">
-							<div class="col-4"><span id="researchersMail">PI e-mail</span><span class="text-danger">*</span><br /></div>
-							<div class="col-8"><input class="form-control" name="setPrincipleInvestigatorEmail" required></input></div>
-						</div> 
-						<div class="row mt-3 ">
-							<div class="col-4"><span id="studentName">Research student names(s)</span></div>
-							<div class="col-8"><input class="form-control" name="setResearcherNames"></input><small>Separate multiple names with comma (,)</small></div>
-							
-						</div>
-						<div class="row mt-3 ">
-							<div class="col-4"><span id="studentEmail">Research students e-mail(s)</span></div>
-							<div class="col-8"><input class="form-control" name="setResearcherEmails"></input><small>Separate multiple e-mails with comma (,)</small></div>
-						</div>
-						<div class="row mt-3 ">
-							<div class="col-4"><span id="funding">Funding project/organization</span></div>
-							<div class="col-8"><input class="form-control" name="setFunding"></input></div>
-						</div>
-						<div class="row mt-3 ">
-							<div class="col-4"><span id="ethicalComitteeText">Ethical comittee/IRB</span></div>
-							<div class="col-8"><input class="form-control" name="setEthicalComittee"></input></div>
-						</div>
-						
-						<div class="row mt-2 mb-2 itemRow" id="fieldsrequired">
-							<div class="col" >
-								<span class="text-danger">* fields required</span> <br />
+							<div class="col"><input type="checkbox" class="form-check-input" name="uncomfortableQuestions" id="uncomfortableQuestions">
+								<label class="form-check-label" for="uncomfortableQuestions">Questions sensibles</label>
 							</div>
 						</div>
 					</div>
-					<div class="row mt-2 itemRow">
-						<div class="col mt-3" >
-							<a id="btnExample" class="btn btn-secondary btn-md float-left mr-3 " >Example</a> 
-							<a id="btnSave" class="btn btn-primary btn-md float-left mr-3 " >Save Settings</a> 
-							<a id="btnLoad" class="btn btn-primary btn-md float-left mr-3 " >Load Settings</a> 
-							<input id="fileInput" type="file" id="custom_file">
-							<button id="btnGenerate" class="btn btn-primary btn-md float-end" value="">Generate</button> 
-						</div>
-					</div>
-					
-					<div class="mt-2 mb-2" id="results"> 
-						<nav>
-							<div class="nav nav-tabs d-flex bd-highlight" id="myTab" role="tablist">
-								<a id="btnBack" class="btn btn-primary btn-md p-2 bd-highlight mb-2" >Back</a>
-								<div class="p-2 flex-grow-1 bd-highlight text-center" >Your Informed Consent Form (please read and check)</div>
-								<button class="nav-link active p-2 bd-highlight" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">PDF</button>
-								<button class="nav-link p-2 bd-highlight" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">HTML</button> 
-							</div>
-						</nav>
-						<div class="tab-content" id="nav-tabContent">
-							<div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">					
-								<div class=" mt-2 mb-2" style="height: 1200px; width: 100%;" > 
-									<div id="previewPDF" style="height: 1200px; z-index:999"></div>
-								</div> 
-							</div>
-							<div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-								<div class="mt-2 mb-2" style="min-height: 1200px; width: 100%;" > 
-									<div id="previewHTML"></div>
+				</div>
+				<div class="row mt-3 ">
+					<div class="col-4"><span id="compensationText">Rémunération</span><span class="text-danger">*</span><br /></div>
+					<div class="col-8"><select class="form-control" name="selectCompensation" required></select></div>
+				</div>
+				<div class="row mt-3 ">
+					<div class="col-4"><span id="procedureText">Procédure (en 4 à 8 étapes)</span><span class="text-danger">*</span><br /></div>
+					<div class="col-8">
+						<div class="textbox-wrapper input-append">
+							<div class="input-group">
+								<div class="input-group mb-1">
+									<input type="text" class="form-control procedureStepText" placeholder="Décrivez une étape de la procédure" aria-describedby="button-addon2">
+									<button class="btn custom-addStep btn-success add-textbox" type="button" id="button-addon2">+</button>
 								</div>
-							</div> 
+							</div>
 						</div>
-					</div> 
-					
-					<div class="row mt-2 mb-2 itemRow" id="githublink">
-						<div class="col" > 
-							<a href="https://github.com/valentin-schwind/consent-form-generator">Source Code on github</a>
+						<small>Cliquez sur (+) pour ajouter une étape, (-) pour en supprimer.</small>
+					</div>
+				</div>
+				<div class="row mt-3 ">
+					<div class="col-4"><span id="recordingsText">Données collectées</span></div>
+					<div class="col-8">
+						<div class="row  row-cols-3 ">
+							<div class="col">
+								<div class="form-check form-check-inline">
+									<input class="form-check-input" type="checkbox" name="recordDemographics" id="recordDemographics" checked required>
+									<label class="form-check-label" for="recordDemographics">Données démographiques</label>
+									<span class="text-danger">*</span>
+								</div>
+							</div>
+							<div class="col">
+								<div class="form-check form-check-inline">
+									<input class="form-check-input" type="checkbox" name="recordContactData" id="recordContactData">
+									<label class="form-check-label" for="recordContactData">Données de contact (e-mail)</label>
+								</div>
+							</div>
+							<div class="col">
+								<div class="form-check form-check-inline">
+									<input class="form-check-input" type="checkbox" name="recordInput" id="recordInput" checked>
+									<label class="form-check-label" for="recordInput">Entrées utilisateur</label>
+								</div>
+							</div>
+							<div class="col">
+								<div class="form-check form-check-inline">
+									<input class="form-check-input" type="checkbox" name="recordNotes" id="recordNotes" checked>
+									<label class="form-check-label" for="recordNotes">Notes manuelles</label>
+								</div>
+							</div>
+							<div class="col">
+								<div class="form-check form-check-inline">
+									<input class="form-check-input" type="checkbox" name="recordScreen" id="recordScreen">
+									<label class="form-check-label" for="recordScreen">Capture d’écran</label>
+								</div>
+							</div>
+							<div class="col">
+								<div class="form-check form-check-inline">
+									<input class="form-check-input" type="checkbox" name="recordPhysio" id="recordPhysio">
+									<label class="form-check-label" for="recordPhysio">Données physiologiques</label>
+								</div>
+							</div>
+							<div class="col">
+								<div class="form-check form-check-inline">
+									<input class="form-check-input" type="checkbox" name="recordPhotos" id="recordPhotos">
+									<label class="form-check-label" for="recordPhotos">Photos</label>
+								</div>
+							</div>
+							<div class="col">
+								<div class="form-check form-check-inline">
+									<input class="form-check-input" type="checkbox" name="recordAudio" id="recordAudio">
+									<label class="form-check-label" for="recordAudio">Audio / parole</label>
+								</div>
+							</div>
+							<div class="col">
+								<div class="form-check form-check-inline">
+									<input class="form-check-input" type="checkbox" name="recordVideos" id="recordVideos">
+									<label class="form-check-label" for="recordVideos">Vidéos</label>
+								</div>
+							</div>
+							<div class="col">
+								<div class="form-check form-check-inline">
+									<input class="form-check-input" type="checkbox" name="recordMotion" id="recordMotion">
+									<label class="form-check-label" for="recordMotion">Données de mouvement</label>
+								</div>
+							</div>
+							<div class="col">
+								<div class="form-check form-check-inline">
+									<input class="form-check-input" type="checkbox" name="recordBodyMetrics" id="recordBodyMetrics">
+									<label class="form-check-label" for="recordBodyMetrics">Mesures corporelles</label>
+								</div>
+							</div>
+							<!-- (continue with other fields if needed) -->
 						</div>
 					</div>
-				</form>
-			</div>
-		</div> 
+				</div>
+
+		 
 		
 		<script type="text/javascript" src="js/jsPDF/jspdf.umd.js"></script> 
 		<script type="text/javascript" src="js/jsPDF/Roboto-Regular-normal.js"></script> 
