@@ -1,968 +1,970 @@
 <!doctype html>
 <html lang="en">
-	<head> 
-		<meta charset="iso-8859-1">
-		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-		<meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<meta name="author" content="Valentin Schwind" /> 
-		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
-		<link rel="stylesheet" type="text/css" href="css/editor.css" />
-		<link rel="stylesheet" type="text/css" href="css/daterangepicker.css" /> 
-		<link rel="stylesheet" type="text/css" href="../_css/style.css" />
-		<link rel="stylesheet" type="text/css" href="css/custom.css" />
-		<link rel="shortcut icon" href="favicon.ico" type="image/x-icon"> 
-		<title>Informed Consent Generator</title>	
-	</head>
-	<body class="transparent">
-		<script type="text/javascript" src="js/countryList.js"></script>
-		<script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
-		<script type="text/javascript" src="js/jquery-ui.js"></script>
-		<script type="text/javascript" src="js/jquery-cookie-plugin/jquery.cookie.js"></script>
-		<script type="text/javascript" src="js/jquery-validation/jquery.validate.js"></script>	 
-		<script type="text/javascript" src="js/bootstrap.min.js"></script>
-		<script type="text/javascript" src="js/popper.min.js" ></script>
-		<script type="text/javascript" src="js/bootstrap-input-spinner.js"></script>
-		<script type="text/javascript" src="js/seedrandom.min.js"></script> 
-		<script type="text/javascript" src="js/html2pdf.bundle.min.js"></script> 
-		<script type="text/javascript" src="js/jsPDF/jspdf.umd.min.js"></script> 
-		<script type="text/javascript" src="js/moment.min.js"></script>
-		<script type="text/javascript" src="js/daterangepicker.min.js"></script>
-		<script type="text/javascript" src="js/FileSaver.min.js"></script> 
-		<div id="mainFrame" class="vertical-center">
-	<div id="mainFrame" class="vertical-center">
-	<div id="demographicsPage" class="whiteBox container rounded">
-		<form id="demographicsForm" class="form-horizontal" action="javascript:generate(this);">
-			<div id="input">
-				<div class="row">
-					<div class="col mb-2 ">
-						<a href="https://hci-studies.org"><img src="img/frankfurtlogo.png" class="float-end mr-3" width="140px" alt="Logo FRA-UAS"></a>
-					</div>
-				</div>
-
-				<div class="row mt-3">
-					<div class="col">
-						<h2 id="demographicsTitle">Générateur de consentement éclairé</h2>
-					</div>
-				</div>
-				<hr />
-				<div class="row mt-3">
-					<div class="col mb-1">
-						Obtenir le consentement éclairé garantit l'autonomie et la vie privée des utilisateurs, ainsi que leur compréhension des risques et bénéfices potentiels de votre étude en IHM. Pour générer un formulaire de consentement éclairé pour vos participant·es, vous pouvez utiliser ce générateur. Ce consentement ne convient pas aux groupes vulnérables (enfants, personnes en situation de handicap, prisonnier·es) ni aux études comportant des risques (ex. médicales). <a href="https://europa.eu/youreurope/business/dealing-with-customers/data-protection/data-protection-gdpr/index_en.htm" target="_blank">Si vous collectez des données personnelles dans l’UE, le RGPD s’applique</a> et impose des règles strictes fondées sur le consentement. Ce consentement doit être libre, spécifique, éclairé et explicite, par exemple via une case cochée ou une signature. <strong>Le consentement doit être donné par un acte positif.</strong> Veuillez contacter votre encadrant·e en cas de doute.
-					</div>
-				</div>
-				<hr />
-				<div class="row mt-3 ">
-					<div class="col-4"><span id="institutionText">Votre établissement</span><span class="text-danger">*</span><br /></div>
-					<div class="col-8"><select class="form-control" name="selectInstitution" required></select></div>
-				</div>
-				<div class="row" id="otherInstitutionRow">
-					<div class="col-4"><span id="otherInstitutionText"></span><br /></div>
-					<div class="col-8"><small>Indiquez le nom, l’adresse complète (rue + n°, code postal + ville, pays)</small><input class="form-control" name="setOtherInstitution" id="otherInstitution"></input></div>
-				</div>
-				<div class="row mt-3 ">
-					<div class="col-4"><span id="researchText">Type de recherche</span><span class="text-danger">*</span><br /></div>
-					<div class="col-8"><select class="form-control" name="selectStudyType" required></select></div>
-				</div>
-				<div class="row mt-3 ">
-					<div class="col-4"><span id="languageText">Langue du consentement</span><span class="text-danger">*</span><br /></div>
-					<div class="col-8"><select class="form-control" name="selectLanguage" required></select></div>
-				</div>
-				<div class="row mt-3 ">
-					<div class="col-4"><span id="titleText">Titre de l’étude</span><span class="text-danger">*</span><br /></div>
-					<div class="col-8"><input class="form-control" name="setTitle" required></input></div>
-				</div>
-				<div class="row mt-3 ">
-					<div class="col-4"><span id="purposeText">Expliquez le but (en une phrase)</span><span class="text-danger">*</span><br /></div>
-					<div class="col-8"><input class="form-control" name="setPurpose" required></input></div>
-				</div>
-				<div class="row mt-3 ">
-					<div class="col-4"><span id="goalText">Expliquez l’objectif (en une phrase)</span><span class="text-danger">*</span><br /></div>
-					<div class="col-8"><input class="form-control" name="setGoal" required></input></div>
-				</div>
-				<div class="row mt-3 ">
-					<div class="col-4"><span id="languageText">Période estimée de l’étude</span><span class="text-danger">*</span><br /></div>
-					<div class="col-3"><input id="daterangepicker" class="form-control" type="text" name="daterange"/></div>
-				</div>
-				<div class="row mt-3 ">
-					<div class="col-4"><span id="durationText">Durée estimée de chaque session</span><span class="text-danger">*</span><br /></div>
-					<div class="col-2"><input class="form-control" name="setDuration" type='number' min="1" max="999" step="1" value="60" required></input></div>
-					<div class="col-3"><select class="form-control" name="selectDurationUnit" required></select></div>
-				</div>
-				<div class="row mt-3 ">
-					<div class="col-4"><span id="durationText">Nombre estimé de participant·es</span><span class="text-danger">*</span><br /></div>
-					<div class="col-2"><input class="form-control" name="setParticipants" type='number' min="1" max="999" step="1" value="24" required></input></div>
-					<div class="col-3"></div>
-				</div>
-				<div class="row mt-3 ">
-					<div class="col-4"><span id="studyOptionsText">Options de l’étude</span><br /></div>
-					<div class="col ml-4">
-						<div class="row">
-							<div class="col">
-								<input type="checkbox" class="form-check-input" name="repeatedParticipationAllowed" id="repeatedParticipationAllowed">
-								<label class="form-check-label" for="repeatedParticipationAllowed">Autoriser la participation multiple</label>
-							</div>
-							<div class="col"><input type="checkbox" class="form-check-input" name="uncomfortableQuestions" id="uncomfortableQuestions">
-								<label class="form-check-label" for="uncomfortableQuestions">Questions sensibles</label>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="row mt-3 ">
-					<div class="col-4"><span id="compensationText">Rémunération</span><span class="text-danger">*</span><br /></div>
-					<div class="col-8"><select class="form-control" name="selectCompensation" required></select></div>
-				</div>
-				<div class="row mt-3 ">
-					<div class="col-4"><span id="procedureText">Procédure (en 4 à 8 étapes)</span><span class="text-danger">*</span><br /></div>
-					<div class="col-8">
-						<div class="textbox-wrapper input-append">
-							<div class="input-group">
-								<div class="input-group mb-1">
-									<input type="text" class="form-control procedureStepText" placeholder="Décrivez une étape de la procédure" aria-describedby="button-addon2">
-									<button class="btn custom-addStep btn-success add-textbox" type="button" id="button-addon2">+</button>
-								</div>
-							</div>
-						</div>
-						<small>Cliquez sur (+) pour ajouter une étape, (-) pour en supprimer.</small>
-					</div>
-				</div>
-				<div class="row mt-3 ">
-					<div class="col-4"><span id="recordingsText">Données collectées</span></div>
-					<div class="col-8">
-						<div class="row  row-cols-3 ">
-							<div class="col">
-								<div class="form-check form-check-inline">
-									<input class="form-check-input" type="checkbox" name="recordDemographics" id="recordDemographics" checked required>
-									<label class="form-check-label" for="recordDemographics">Données démographiques</label>
-									<span class="text-danger">*</span>
-								</div>
-							</div>
-							<div class="col">
-								<div class="form-check form-check-inline">
-									<input class="form-check-input" type="checkbox" name="recordContactData" id="recordContactData">
-									<label class="form-check-label" for="recordContactData">Données de contact (e-mail)</label>
-								</div>
-							</div>
-							<div class="col">
-								<div class="form-check form-check-inline">
-									<input class="form-check-input" type="checkbox" name="recordInput" id="recordInput" checked>
-									<label class="form-check-label" for="recordInput">Entrées utilisateur</label>
-								</div>
-							</div>
-							<div class="col">
-								<div class="form-check form-check-inline">
-									<input class="form-check-input" type="checkbox" name="recordNotes" id="recordNotes" checked>
-									<label class="form-check-label" for="recordNotes">Notes manuelles</label>
-								</div>
-							</div>
-							<div class="col">
-								<div class="form-check form-check-inline">
-									<input class="form-check-input" type="checkbox" name="recordScreen" id="recordScreen">
-									<label class="form-check-label" for="recordScreen">Capture d’écran</label>
-								</div>
-							</div>
-							<div class="col">
-								<div class="form-check form-check-inline">
-									<input class="form-check-input" type="checkbox" name="recordPhysio" id="recordPhysio">
-									<label class="form-check-label" for="recordPhysio">Données physiologiques</label>
-								</div>
-							</div>
-							<div class="col">
-								<div class="form-check form-check-inline">
-									<input class="form-check-input" type="checkbox" name="recordPhotos" id="recordPhotos">
-									<label class="form-check-label" for="recordPhotos">Photos</label>
-								</div>
-							</div>
-							<div class="col">
-								<div class="form-check form-check-inline">
-									<input class="form-check-input" type="checkbox" name="recordAudio" id="recordAudio">
-									<label class="form-check-label" for="recordAudio">Audio / parole</label>
-								</div>
-							</div>
-							<div class="col">
-								<div class="form-check form-check-inline">
-									<input class="form-check-input" type="checkbox" name="recordVideos" id="recordVideos">
-									<label class="form-check-label" for="recordVideos">Vidéos</label>
-								</div>
-							</div>
-							<div class="col">
-								<div class="form-check form-check-inline">
-									<input class="form-check-input" type="checkbox" name="recordMotion" id="recordMotion">
-									<label class="form-check-label" for="recordMotion">Données de mouvement</label>
-								</div>
-							</div>
-							<div class="col">
-								<div class="form-check form-check-inline">
-									<input class="form-check-input" type="checkbox" name="recordBodyMetrics" id="recordBodyMetrics">
-									<label class="form-check-label" for="recordBodyMetrics">Mesures corporelles</label>
-								</div>
-							</div>
-							<!-- (continue with other fields if needed) -->
-						</div>
-					</div>
-				</div>
+<head>
+  <meta charset="iso-8859-1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="author" content="Valentin Schwind" />
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+  <link rel="stylesheet" type="text/css" href="css/editor.css" />
+  <link rel="stylesheet" type="text/css" href="css/daterangepicker.css" />
+  <link rel="stylesheet" type="text/css" href="../_css/style.css" />
+  <link rel="stylesheet" type="text/css" href="css/custom.css" />
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+  <title>Informed Consent Generator</title>
+</head>
+<body class="transparent">
+  <script type="text/javascript" src="js/countryList.js"></script>
+  <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+  <script type="text/javascript" src="js/jquery-ui.js"></script>
+  <script type="text/javascript" src="js/jquery-cookie-plugin/jquery.cookie.js"></script>
+  <script type="text/javascript" src="js/jquery-validation/jquery.validate.js"></script>
+  <script type="text/javascript" src="js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="js/popper.min.js"></script>
+  <script type="text/javascript" src="js/bootstrap-input-spinner.js"></script>
+  <script type="text/javascript" src="js/seedrandom.min.js"></script>
+  <script type="text/javascript" src="js/html2pdf.bundle.min.js"></script>
+  <script type="text/javascript" src="js/jsPDF/jspdf.umd.min.js"></script>
+  <script type="text/javascript" src="js/moment.min.js"></script>
+  <script type="text/javascript" src="js/daterangepicker.min.js"></script>
+  <script type="text/javascript" src="js/FileSaver.min.js"></script>
+  <div id="mainFrame" class="vertical-center">
+    <div id="mainFrame" class="vertical-center">
+      <div id="demographicsPage" class="whiteBox container rounded">
+        <form id="demographicsForm" class="form-horizontal" action="javascript:generate(this);">
+          <div id="input">
+            <div class="row">
+              <div class="col mb-2 ">
+                <a href="https://hci-studies.org"><img src="img/frankfurtlogo.png" class="float-end mr-3" width="140px" alt="Logo FRA-UAS"></a>
               </div>
-          </form>
+            </div>
+
+            <div class="row mt-3">
+              <div class="col">
+                <h2 id="demographicsTitle">Générateur de consentement éclairé</h2>
+              </div>
+            </div>
+            <hr />
+            <div class="row mt-3">
+              <div class="col mb-1">
+                Obtenir le consentement éclairé garantit l'autonomie et la vie privée des utilisateurs, ainsi que leur compréhension des risques et bénéfices potentiels de votre étude en IHM. Pour générer un formulaire de consentement éclairé pour vos participant·es, vous pouvez utiliser ce générateur. Ce consentement ne convient pas aux groupes vulnérables (enfants, personnes en situation de handicap, prisonnier·es) ni aux études comportant des risques (ex. médicales). <a href="https://europa.eu/youreurope/business/dealing-with-customers/data-protection/data-protection-gdpr/index_en.htm" target="_blank">Si vous collectez des données personnelles dans l’UE, le RGPD s’applique</a> et impose des règles strictes fondées sur le consentement. Ce consentement doit être libre, spécifique, éclairé et explicite, par exemple via une case cochée ou une signature. <strong>Le consentement doit être donné par un acte positif.</strong> Veuillez contacter votre encadrant·e en cas de doute.
+              </div>
+            </div>
+            <hr />
+            <div class="row mt-3 ">
+              <div class="col-4"><span id="institutionText">Votre établissement</span><span class="text-danger">*</span><br /></div>
+              <div class="col-8"><select class="form-control" name="selectInstitution" required></select></div>
+            </div>
+            <div class="row" id="otherInstitutionRow">
+              <div class="col-4"><span id="otherInstitutionText"></span><br /></div>
+              <div class="col-8"><small>Indiquez le nom, l’adresse complète (rue + n°, code postal + ville, pays)</small><input class="form-control" name="setOtherInstitution" id="otherInstitution"></input></div>
+            </div>
+            <div class="row mt-3 ">
+              <div class="col-4"><span id="researchText">Type de recherche</span><span class="text-danger">*</span><br /></div>
+              <div class="col-8"><select class="form-control" name="selectStudyType" required></select></div>
+            </div>
+            <div class="row mt-3 ">
+              <div class="col-4"><span id="languageText">Langue du consentement</span><span class="text-danger">*</span><br /></div>
+              <div class="col-8"><select class="form-control" name="selectLanguage" required></select></div>
+            </div>
+            <div class="row mt-3 ">
+              <div class="col-4"><span id="titleText">Titre de l’étude</span><span class="text-danger">*</span><br /></div>
+              <div class="col-8"><input class="form-control" name="setTitle" required></input></div>
+            </div>
+            <div class="row mt-3 ">
+              <div class="col-4"><span id="purposeText">Expliquez le but (en une phrase)</span><span class="text-danger">*</span><br /></div>
+              <div class="col-8"><input class="form-control" name="setPurpose" required></input></div>
+            </div>
+            <div class="row mt-3 ">
+              <div class="col-4"><span id="goalText">Expliquez l’objectif (en une phrase)</span><span class="text-danger">*</span><br /></div>
+              <div class="col-8"><input class="form-control" name="setGoal" required></input></div>
+            </div>
+            <div class="row mt-3 ">
+              <div class="col-4"><span id="languageText">Période estimée de l’étude</span><span class="text-danger">*</span><br /></div>
+              <div class="col-3"><input id="daterangepicker" class="form-control" type="text" name="daterange" /></div>
+            </div>
+            <div class="row mt-3 ">
+              <div class="col-4"><span id="durationText">Durée estimée de chaque session</span><span class="text-danger">*</span><br /></div>
+              <div class="col-2"><input class="form-control" name="setDuration" type='number' min="1" max="999" step="1" value="60" required></input></div>
+              <div class="col-3"><select class="form-control" name="selectDurationUnit" required></select></div>
+            </div>
+            <div class="row mt-3 ">
+              <div class="col-4"><span id="durationText">Nombre estimé de participant·es</span><span class="text-danger">*</span><br /></div>
+              <div class="col-2"><input class="form-control" name="setParticipants" type='number' min="1" max="999" step="1" value="24" required></input></div>
+              <div class="col-3"></div>
+            </div>
+            <div class="row mt-3 ">
+              <div class="col-4"><span id="studyOptionsText">Options de l’étude</span><br /></div>
+              <div class="col ml-4">
+                <div class="row">
+                  <div class="col">
+                    <input type="checkbox" class="form-check-input" name="repeatedParticipationAllowed" id="repeatedParticipationAllowed">
+                    <label class="form-check-label" for="repeatedParticipationAllowed">Autoriser la participation multiple</label>
+                  </div>
+                  <div class="col"><input type="checkbox" class="form-check-input" name="uncomfortableQuestions" id="uncomfortableQuestions">
+                    <label class="form-check-label" for="uncomfortableQuestions">Questions sensibles</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row mt-3 ">
+              <div class="col-4"><span id="compensationText">Rémunération</span><span class="text-danger">*</span><br /></div>
+              <div class="col-8"><select class="form-control" name="selectCompensation" required></select></div>
+            </div>
+            <div class="row mt-3 ">
+              <div class="col-4"><span id="procedureText">Procédure (en 4 à 8 étapes)</span><span class="text-danger">*</span><br /></div>
+              <div class="col-8">
+                <div class="textbox-wrapper input-append">
+                  <div class="input-group">
+                    <div class="input-group mb-1">
+                      <input type="text" class="form-control procedureStepText" placeholder="Décrivez une étape de la procédure" aria-describedby="button-addon2">
+                      <button class="btn custom-addStep btn-success add-textbox" type="button" id="button-addon2">+</button>
+                    </div>
+                  </div>
+                </div>
+                <small>Cliquez sur (+) pour ajouter une étape, (-) pour en supprimer.</small>
+              </div>
+            </div>
+            <div class="row mt-3 ">
+              <div class="col-4"><span id="recordingsText">Données collectées</span></div>
+              <div class="col-8">
+                <div class="row  row-cols-3 ">
+                  <div class="col">
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" name="recordDemographics" id="recordDemographics" checked required>
+                      <label class="form-check-label" for="recordDemographics">Données démographiques</label>
+                      <span class="text-danger">*</span>
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" name="recordContactData" id="recordContactData">
+                      <label class="form-check-label" for="recordContactData">Données de contact (e-mail)</label>
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" name="recordInput" id="recordInput" checked>
+                      <label class="form-check-label" for="recordInput">Entrées utilisateur</label>
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" name="recordNotes" id="recordNotes" checked>
+                      <label class="form-check-label" for="recordNotes">Notes manuelles</label>
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" name="recordScreen" id="recordScreen">
+                      <label class="form-check-label" for="recordScreen">Capture d’écran</label>
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" name="recordPhysio" id="recordPhysio">
+                      <label class="form-check-label" for="recordPhysio">Données physiologiques</label>
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" name="recordPhotos" id="recordPhotos">
+                      <label class="form-check-label" for="recordPhotos">Photos</label>
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" name="recordAudio" id="recordAudio">
+                      <label class="form-check-label" for="recordAudio">Audio / parole</label>
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" name="recordVideos" id="recordVideos">
+                      <label class="form-check-label" for="recordVideos">Vidéos</label>
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" name="recordMotion" id="recordMotion">
+                      <label class="form-check-label" for="recordMotion">Données de mouvement</label>
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" name="recordBodyMetrics" id="recordBodyMetrics">
+                      <label class="form-check-label" for="recordBodyMetrics">Mesures corporelles</label>
+                    </div>
+                  </div>
+                  <!-- (continue with other fields if needed) -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
       </div>
+    </div>
   </div>
 
+  <script type="text/javascript" src="js/jsPDF/jspdf.umd.js"></script>
+  <script type="text/javascript" src="js/jsPDF/Roboto-Regular-normal.js"></script>
+  <script type="text/javascript" src="js/jsPDF/Roboto-Medium-normal.js"></script>
 
-		<script type="text/javascript" src="js/jsPDF/jspdf.umd.js"></script> 
-		<script type="text/javascript" src="js/jsPDF/Roboto-Regular-normal.js"></script> 
-		<script type="text/javascript" src="js/jsPDF/Roboto-Medium-normal.js"></script> 
-		
-		<script type="text/javascript"> 
-			var debug = true;
-			var jsPDF = window.jspdf.jsPDF;
-			var jsPDFEditor;
-			var lineCounter = 1; 
-			
-			const topMargin = 25;
-			const leftMargin = 20;
-			const textWidth = 170;
-			const pageHeight = 260;
-			const bulletPointIndent = 8;
-			const paragraphMarginTop = 0.5;
-			const paragraphMarginBottom = 1;
-			const fontSize = 9;
-			const lineMultiplier = 4;
-			
-			const maxProcedureSteps = 8;
-			var countProcedureSteps = 1;
-			
-			$(document).ready(function() { 
-				$.ajax({async: true, crossDomain: false, cache: false, type: "GET", url: "https://hci-studies.org/informed-consent-generator/textsnippets.xml", dataType: "xml",contentType:"application/x-javascript; charset:ISO-8859-1", success: function(xml) {
-					
-					$('#btnBack').hide();
-					$('#results').hide(); 
-					
-					const fillUIOptions = () => { 
-						$("select[name='selectLanguage']").append(new Option('Please select', ""));
-						$("select[name='selectLanguage']").append(new Option('English',"en"));
-						$("select[name='selectLanguage']").append(new Option('German',"de"));
-						
-						$("select[name='selectInstitution']").append(new Option('Please select', "")); 
-						$("select[name='selectInstitution']").append(new Option('Frankfurt University of Applied Sciences', "frauas"));
-						$("select[name='selectInstitution']").append(new Option('University of Regensburg', "regensburg"));
-						$("select[name='selectInstitution']").append(new Option('University of Stuttgart', "stuttgart")); 
-						$("select[name='selectInstitution']").append(new Option('Other', "other"));
-						$("#otherInstitutionRow").hide();
-						
-						$("select[name='selectInstitution']").change( function(e){
-							if($("select[name='selectInstitution']").val() == "other"){
-								$("#otherInstitutionRow").show();
-								$("#otherInstitution").focus();
-								} else {
-								$("#otherInstitutionRow").hide();
-							}
-						});		 
-						
-						$("input[type='number']").inputSpinner()
-						$("select[name='selectDurationUnit']").append(new Option('Please select', "")); 
-						$("select[name='selectDurationUnit']").append(new Option('Minutes', "minutes"));
-						$("select[name='selectDurationUnit']").append(new Option('Hours', "hours"));
-						$("select[name='selectDurationUnit']").append(new Option('Days', "days"));
-						$("select[name='selectDurationUnit']").append(new Option('Weeks', "weeks"));
-						
-						$('#daterangepicker').daterangepicker({
-							opens: 'right',
-							autoApply: true,
-							startDate: moment(new Date()).add(1,'days'),
-							endDate: moment(new Date()).add(15,'days'),
-							dateFormat: 'YYYY-MM-DD',
-							locale: { format: 'DD.MM.YYYY' }
-							}, function(start, end, label) {
-							console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
-						});
-						
-						countProcedureSteps = 1;
-						
-						$(".add-textbox").click( function(e){
-							e.preventDefault();
-							if(countProcedureSteps < maxProcedureSteps){
-								countProcedureSteps++;
-								$(".textbox-wrapper").append('<div class="input-group mb-1"><input type="text" class="form-control procedureStepText" placeholder="Describe your procedure step" aria-describedby="button-addon2"><button class="btn custom-addStep remove-textbox btn-danger" type="button" id="button-addon2">-</button></div>');
-							}
-							$(".remove-textbox").click( function(e){
-								e.preventDefault();
-								$(this).parents(".input-group").remove();
-								countProcedureSteps--;
-							});
-						}); 
-						
-						$("select[name='selectStudyType']").append(new Option('Please select', ""));
-						$("select[name='selectStudyType']").append(new Option('Online study (survey, apps, downloads, etc.)', "onlinestudy"));
-						$("select[name='selectStudyType']").append(new Option('User Study (lab study, mixed reality, eye-tracking, etc.)', "userstudy"));
-						$("select[name='selectStudyType']").append(new Option('Field Study (outside the lab, workplaces, in-situ, etc.)', "fieldstudy"));
-						$("select[name='selectStudyType']").append(new Option('Interview (focus groups, expert interviews, use cases, diaries, etc.)', "qualitativestudy"));
-						
-						$("select[name='selectAnonymization']").append(new Option('Please select', ""));
-						$("select[name='selectAnonymization']").append(new Option('No - not anonymized', "no"));
-						$("select[name='selectAnonymization']").append(new Option('Yes - pseudoanonymized (recommended)', "pseudo")); 
-						$("select[name='selectAnonymization']").append(new Option('Yes - fully anonymized', "full"));
-						
-						$("select[name='selectPublication']").append(new Option('Please select', ''));
-						$("select[name='selectPublication']").append(new Option('Including the raw data set', 'full'));
-						$("select[name='selectPublication']").append(new Option('The aggregated results only', 'aggregated')); 
-						
-						$("select[name='selectDateOfDataEnd']").append(new Option('Please select', ""));
-						$("select[name='selectDateOfDataEnd']").append(new Option('Not specified (not longer than necessary)', 0));
-						$("select[name='selectDateOfDataEnd']").append(new Option('After 1 year', 2)); 
-						$("select[name='selectDateOfDataEnd']").append(new Option('After 2 years', 2)); 
-						$("select[name='selectDateOfDataEnd']").append(new Option('After 3 years', 3)); 
-						$("select[name='selectDateOfDataEnd']").append(new Option('After 4 years', 4)); 
-						$("select[name='selectDateOfDataEnd']").append(new Option('After 5 years', 5)); 
-						$("select[name='selectDateOfDataEnd']").append(new Option('After 6 years', 6)); 
-						$("select[name='selectDateOfDataEnd']").append(new Option('After 8 years', 8)); 
-						$("select[name='selectDateOfDataEnd']").append(new Option('After 9 years', 9)); 
-						$("select[name='selectDateOfDataEnd']").append(new Option('After 10 years (e.g., BMBF/DFG)', 10)); 
-						$("select[name='selectDateOfDataEnd']").append(new Option('After 15 years', 15)); 
-						$("select[name='selectDateOfDataEnd']").append(new Option('After 20 years', 20)); 
-						
-						$("select[name='selectCompensation']").append(new Option('Please select', ""));
-						$("select[name='selectCompensation']").append(new Option('None', "compensation_none")); 
-						$("select[name='selectCompensation']").append(new Option('1 EUR', "compensation_1EUR"));
-						$("select[name='selectCompensation']").append(new Option('5 EUR', "compensation_5EUR"));
-						$("select[name='selectCompensation']").append(new Option('10 EUR', "compensation_10EUR"));
-						$("select[name='selectCompensation']").append(new Option('15 EUR', "compensation_15EUR"));
-						$("select[name='selectCompensation']").append(new Option('20 EUR', "compensation_20EUR"));
-						$("select[name='selectCompensation']").append(new Option('� credit point for the lecture', "compensation_halfcreditpoint"));
-						$("select[name='selectCompensation']").append(new Option('1 credit point for the lecture (e.g., when you need 3 for the lecture)', "compensation_onecreditpoint"));
-						
-						$("input[name='setTitle']").attr("placeholder", "Your research title");
-						$("input[name='setOtherInstitution']").attr("placeholder", "Your Institution, Streetname 123, ZIP City, Country");
-						$("input[name='setEthicalComittee'] ").attr("placeholder","Your review board (keep empty if none)"); 
-						$("input[name='setPrincipleInvestigator']").attr("placeholder","The person, who said you should do the study (e.g., Prof. Dr. Valentin Schwind)");
-						$("input[name='setPrincipleInvestigatorEmail']").attr("placeholder","firstname.lastname@institution.com");
-						$("input[name='setPrincipleInvestigatorEmail']").attr("placeholder", "The e-mail of the person, who said you should do the study"); 
-						$("input[name='setParticipants']").attr("placeholder", "Insert number");
-						$("input[name='setResearcherNames']").attr("placeholder","Eva Musterfrau, Max Mustermann, Erika Musterfrau");
-						$("input[name='setResearcherEmails']").attr("placeholder","eva.musterfrau@stud.fra-uas.de, max.mustermann@stud.fra-uas.de, erika.musterfrau@stud.fra-uas.de");
-						$("input[name='setFunding']").attr("placeholder","Your funding (keep empty if none)"); 
-						$("input[name='setPurpose']").attr("placeholder","Explain the purpose of this research. ");
-						$("input[name='setGoal']").attr("placeholder","Explain the goal of this research. ");
-					}
-					
-					fillUIOptions();
-					
-					$("#btnExample").click(function() {
-						$("select[name='selectLanguage']").val("de");
-						$("select[name='selectInstitution']").val("frauas");
-						$("input[name='recordDemographics']").prop( "checked", true );
-						$("input[name='recordContactData']").prop( "checked", true );
-						$("input[name='recordPhotos']").prop( "checked", true );
-						$("input[name='recordMotion']").prop( "checked", true );
-						$("input[name='recordVideos']").prop( "checked", true );
-						$("input[name='recordEye']").prop( "checked", true );
-						$("input[name='recordPhysio']").prop( "checked", true );
-						$("input[name='recordAudio']").prop( "checked", true );
-						$("input[name='recordNotes']").prop( "checked", true );
-						$("input[name='recordScreen']").prop( "checked", true );
-						$("input[name='recordBodyMetrics']").prop( "checked", true );
-						$("select[name='selectDateOfDataEnd']").val(10);
-						$("input[name='uncomfortableQuestions']").prop( "checked", true );
-						$("select[name='selectStudyType']").val("userstudy");
-						$("select[name='selectAnonymization']").val("pseudo");
-						$("select[name='selectPublication']").val("full");
-						$("select[name='selectCompensation']").val("compensation_onecreditpoint"); 
-						$("input[name='setTitle'] ").val("Fitts' Task in Virtual Reality using Avatar Hands"); 
-						$("input[name='setPrincipleInvestigator']").val("Prof. Dr. Valentin Schwind");
-						$("input[name='setPrincipleInvestigatorEmail']").val("valentin.schwind@fb2.fra-uas.de"); 
-						$("input[name='participants']").val("36");
-						$("input[name='setResearcherNames']").val("Eva Musterfrau, Max Mustermann, Erika Musterfrau");
-						$("input[name='setResearcherEmails']").val("eva.musterfrau@stud.fra-uas.de, max.mustermann@stud.fra-uas.de, erika.musterfrau@stud.fra-uas.de");
-						$("input[name='setEthicalComittee']").val("FRA-UAS");
-						$("input[name='setFunding']").val("BMBF KI@FRA-UAS");
-						$("input[name='setDuration']").val("45");
-						$("input[name='setParticipants']").val("32");
-						$("select[name='selectDurationUnit']").val("minutes");
-						$("input[name='setPurpose']").val("Der Zweck dieser Forschung ist es, die menschliche Leistung bei einer Zeigeaufgabe mit verschiedenen Avatar-H�nden in der virtuellen Realit�t zu untersuchen.");
-						$("input[name='setGoal']").val("Das Ziel dieser Forschung ist es zu verstehen, wie visuelle Signale des eigenen K�rpers in das eigene K�rperschema integriert werden.");
-						
-						var procedureSteps = ["Sie bekommen ein Virtual-Reality-Headset und werden mit virtuellen H�nden in die Umgebung eingef�hrt", "Sie werden mit dem Zeigefinger auf rot-markierte Ziele tippen", "Sie sehen einen virtuellen Fragebogen", "Diesen Vorgang wiederholen Sie mit allen H�nden", "Am Ende gibt es ein zusammenfassendes Interview"];
-						$(".remove-textbox").click();
-						for(var i = 0; i < procedureSteps.length - 1; i++) {
-							$(".add-textbox").click(); 
-						}
-						$(".procedureStepText").each(function(index, item){ 
-							$(item).val(procedureSteps[index]); 
-						}); 
-					});
-					
-					$("#btnBack").click(function() {
-						$('#btnBack').hide();
-						$('#btnGenerate').show();
-						$('#btnExample').show();
-						$('#btnSave').show();
-						$('#btnLoad').show();
-						$('#input').show();
-						$('#results').hide();
-					}); 
-					
-					$("#btnSave").click(function() { 
-						data = getSettings(); 
-						var file = new File([JSON.stringify(data)], {type: "text/json;charset=utf-8"});
-						saveAs(file , "informed-consent-settings.txt");
-					});
-					
-					$("#btnLoad").click(function() { 
-						$("#fileInput").click();
-					});
-					
-					$('#fileInput').hide();
-					
-					$('#fileInput').change(function (e) { 
-						var [file] = document.querySelector('#fileInput').files;
-						var reader = new FileReader();
-						
-						reader.addEventListener("load", () => {
-							settings = JSON.parse(reader.result); 
-							setSettings(settings);
-							$("#fileInput").val(null);
-						}, false);
-						
-						if (file) {
-							reader.readAsText(file);
-						} 
-					});
-					
-					const getSettings = () => {
-						var settings = {};
-						settings.institution = $("select[name='selectInstitution']").val(); 
-						settings.otherInstitution = $("input[name='otherInstitution']").val(); 
-						settings.studyType = $("select[name='selectStudyType']").val(); 
-						settings.language = $('select[name="selectLanguage"').val(); 
-						settings.studyTitle = $("input[name='setTitle']").val(); 
-						settings.studyPurpose = $("input[name='setPurpose']").val(); 
-						settings.studyGoal = $("input[name='setGoal']").val(); 
-						settings.startDate = $('#daterangepicker').data('daterangepicker').startDate.format('MM/DD/YYYY');
-						settings.endDate = $('#daterangepicker').data('daterangepicker').endDate.format('MM/DD/YYYY'); 
-						settings.studyDuration = $("input[name='setDuration']").val(); 
-						settings.studyDurationUnit = $("select[name='selectDurationUnit']").val(); 
-						settings.participants = $("input[name='setParticipants']").val(); 
-						settings.repeatedParticipationAllowed = $("input[name='repeatedParticipationAllowed']").prop('checked');
-						settings.uncomfortableQuestions = $("input[name='uncomfortableQuestions']").prop('checked');
-						settings.recordDemographics = $("input[name='recordDemographics']").prop('checked');
-						settings.recordContactData = $("input[name='recordContactData']").prop('checked');
-						settings.recordInput = $("input[name='recordInput']").prop('checked');
-						settings.recordPhotos = $("input[name='recordPhotos']").prop('checked');
-						settings.recordVideos = $("input[name='recordVideos']").prop('checked');
-						settings.recordAudio = $("input[name='recordAudio']").prop('checked');
-						settings.recordMotion = $("input[name='recordMotion']").prop('checked');
-						settings.recordEye = $("input[name='recordEye']").prop('checked');
-						settings.recordPhysio = $("input[name='recordPhysio']").prop('checked');
-						settings.recordScreen = $("input[name='recordScreen']").prop('checked');
-						settings.recordBodyMetrics = $("input[name='recordBodyMetrics']").prop('checked');
-						settings.recordNotes = $("input[name='recordNotes']").prop('checked');
-						settings.compensation = $("select[name='selectCompensation']").val(); 
-						var procedureStepArray = [];
-						$(".procedureStepText").each(function(index, item){ 
-							if($(item).val() != "") procedureStepArray.push($(item).val()); 
-						});
-						settings.procedureSteps = procedureStepArray;
-						settings.dateOfDataEnd = $("select[name='selectDateOfDataEnd']").val();
-						settings.anonymization = $("select[name='selectAnonymization']").val(); 
-						settings.publication = $("select[name='selectPublication']").val(); 
-						settings.principalInvestigator = $("input[name='setPrincipleInvestigator']").val();
-						settings.principalInvestigatorEmail = $("input[name='setPrincipleInvestigatorEmail']").val(); 
-						settings.researcherNames = $("input[name='setResearcherNames']").val();
-						settings.researcherEmails = $("input[name='setResearcherEmails']").val(); 
-						settings.funding = $("input[name='setFunding']").val();
-						settings.ethicalComittee = $("input[name='setEthicalComittee']").val();
-						return settings;
-					}	
-					
-					const setSettings = (settings) => { 
-						$("select[name='selectInstitution'] ").val(settings.institution); 
-						$("input[name='otherInstitution']").val(settings.otherInstitution);
-						if(settings.otherInstitution != "") $("#otherInstitutionRow").show();
-						else $("#otherInstitutionRow").hide();
-						$("select[name='selectStudyType'] ").val(settings.studyType); 
-						$("select[name='selectLanguage'] ").val(settings.language); 
-						$("input[name='setTitle'] ").val(settings.studyTitle); 
-						$("input[name='setPurpose'] ").val(settings.studyPurpose); 
-						$("input[name='setGoal'] ").val(settings.studyGoal); 
-						$('#daterangepicker').daterangepicker({ 
-							startDate: moment(new Date(settings.startDate)),
-							endDate: moment(new Date(settings.endDate)),
-							dateFormat: 'YYYY-MM-DD',
-							locale: { format: 'DD.MM.YYYY' }
-						}); 
-						$("input[name='setDuration']").val(settings.studyDuration);
-						$("select[name='selectDurationUnit']").val(settings.studyDurationUnit);
-						$("input[name='setParticipants']").val(settings.participants); 
-						$("input[name='repeatedParticipationAllowed']").prop('checked', settings.repeatedParticipationAllowed );
-						$("input[name='uncomfortableQuestions']").prop( "checked", settings.uncomfortableQuestions );
-						$("input[name='recordDemographics']").prop('checked', settings.recordDemographics);
-						$("input[name='recordContactData']").prop('checked', settings.recordContactData);
-						$("input[name='recordInput']").prop('checked', settings.recordInput);
-						$("input[name='recordPhotos']").prop('checked', settings.recordPhotos);
-						$("input[name='recordVideos']").prop('checked', settings.recordVideos);
-						$("input[name='recordAudio']").prop('checked', settings.recordAudio);
-						$("input[name='recordMotion']").prop('checked', settings.recordMotion);
-						$("input[name='recordEye']").prop('checked', settings.recordEye);
-						$("input[name='recordPhysio']").prop('checked', settings.recordPhysio);
-						$("input[name='recordScreen']").prop('checked', settings.recordScreen);
-						$("input[name='recordBodyMetrics']").prop('checked', settings.recordBodyMetrics);
-						$("input[name='recordNotes']").prop('checked', settings.recordNotes);
-						$("select[name='selectCompensation']").val(settings.compensation); 
-						for(var i = 0; i < settings.procedureSteps.length - 1; i++) $(".add-textbox").click(); 
-						$(".procedureStepText").each(function(index, item){ 
-							$(item).val(settings.procedureSteps[index]); 
-						}); 
-						$("select[name='selectDateOfDataEnd']").val(settings.dateOfDataEnd);
-						$("select[name='selectAnonymization']").val(settings.anonymization); 
-						$("select[name='selectPublication']").val(settings.publication); 
-						$("input[name='setPrincipleInvestigator']").val(settings.principalInvestigator);
-						$("input[name='setPrincipleInvestigatorEmail']").val(settings.principalInvestigatorEmail);
-						$("input[name='setResearcherNames']").val(settings.researcherNames);
-						$("input[name='setResearcherEmails']").val(settings.researcherEmails); 
-						$("input[name='setFunding']").val(settings.funding);
-						$("input[name='setEthicalComittee']").val(settings.ethicalComittee);
-					}
-					
-					
-					var pdfText = includeRobotoFontNormal;
-					pdfText += includeRobotoFontMedium; 
-					
-					jsPDFEditor = (function() {
-						return { 
-							init: function() {
-								jsPDFEditor.update(); 
-							}, 
-							update: function(skipEval) {
-								//setTimeout(function() {
-								lineCounter = 0;
-								var doc = new jsPDF();
-								eval("try{" + pdfText + "} catch(e) { console.error(e.message,e.stack,e); }" );
-								if (typeof doc !== "undefined"){ 
-									console.log(lineCounter);
-									var sectionCounter = 0;
-									
-									settings = getSettings();
-									console.log(settings); 
-									
-									var institutionNameText = "";
-									var institutionStreetText = "";
-									var institutionZIPandCityText = "";
-									var institutionCountryText = ""; 
-									
-									if(settings.institution == "other"){
-										institutionNameText = settings.otherInstitution.replaceAll(/(\b, \b|\b,\b)/g, ", ").split(", ")[0];
-										institutionStreetText = settings.otherInstitution.replaceAll(/(\b, \b|\b,\b)/g, ", ").split(", ")[1];
-										institutionZIPandCityText = settings.otherInstitution.replaceAll(/(\b, \b|\b,\b)/g, ", ").split(", ")[2];
-										institutionCountryText = settings.otherInstitution.replaceAll(/(\b, \b|\b,\b)/g, ", ").split(", ")[3];
-										} else {
-										institutionNameText = $(xml).find('options[id="institutions"]').find('option[lang="' + settings.language + '"][value="' + settings.institution + '"]').text().replaceAll(/(\b, \b|\b,\b)/g, ", ").split(", ")[0];
-										institutionStreetText = $(xml).find('options[id="institutions"]').find('option[lang="' + settings.language + '"][value="' + settings.institution + '"]').text().replaceAll(/(\b, \b|\b,\b)/g, ", ").split(", ")[1];
-										institutionZIPandCityText = $(xml).find('options[id="institutions"]').find('option[lang="' + settings.language + '"][value="' + settings.institution + '"]').text().replaceAll(/(\b, \b|\b,\b)/g, ", ").split(", ")[2];
-										institutionCountryText = $(xml).find('options[id="institutions"]').find('option[lang="' + settings.language + '"][value="' + settings.institution + '"]').text().replaceAll(/(\b, \b|\b,\b)/g, ", ").split(", ")[3];
-									} 
-									
-									var records = []; 
-									if(settings.recordInput) records.push($(xml).find('text[id="list_recordInput"]').find('content[lang="' + settings.language + '"]').text());
-									if(settings.recordPhotos) records.push($(xml).find('text[id="list_recordPhotos"]').find('content[lang="' + settings.language + '"]').text());
-									if(settings.recordVideos) records.push($(xml).find('text[id="list_recordVideos"]').find('content[lang="' + settings.language + '"]').text());
-									if(settings.recordAudio) records.push($(xml).find('text[id="list_recordAudio"]').find('content[lang="' + settings.language + '"]').text());
-									if(settings.recordMotion) records.push($(xml).find('text[id="list_recordMotion"]').find('content[lang="' + settings.language + '"]').text());
-									if(settings.recordEye) records.push($(xml).find('text[id="list_recordEye"]').find('content[lang="' + settings.language + '"]').text());
-									if(settings.recordPhysio) records.push($(xml).find('text[id="list_recordPhysio"]').find('content[lang="' + settings.language + '"]').text());
-									if(settings.recordScreen) records.push($(xml).find('text[id="list_recordScreen"]').find('content[lang="' + settings.language + '"]').text());
-									if(settings.recordBodyMetrics) records.push($(xml).find('text[id="list_recordBodyMetrics"]').find('content[lang="' + settings.language + '"]').text());
-									if(settings.recordNotes) records.push($(xml).find('text[id="list_recordNotes"]').find('content[lang="' + settings.language + '"]').text()); 
-									
-									ethicalResponsibilities = []; 
-									ethicalResponsibilities.push(settings.principalInvestigator); 
-									if(settings.ethicalComittee != "") ethicalResponsibilities.push($(xml).find('text[id="ethicalCommiteeOf"]').find('content[lang="' + settings.language + '"]').text() + " " + settings.ethicalComittee);
-									
-									var studentResearcherList = [];
-									var studentResearcherNames = settings.researcherNames.replaceAll(/(\b, \b|\b,\b)/g, ", ").split(", ");
-									var studentResearcherEmails = settings.researcherEmails.replaceAll(/(\b, \b|\b,\b)/g, ", ").split(", ");
-									
-									if(studentResearcherNames.length == studentResearcherEmails.length){
-										for(var studentResearcher in studentResearcherNames){
-											studentResearcherList.push((studentResearcherNames[studentResearcher] + " (" + studentResearcherEmails[studentResearcher] + ")\n" ));
-										}
-										} else {
-										alert("Number of researchers and the number of emails provided do not match. Please check for comma-separated values.");
-										return;
-									}
-									
-									// Texts
-									var informedConsentTitleText = $(xml).find('text[id="title"]').find('content[lang="' + settings.language + '"]').text();
-									var studyTypeText = $(xml).find('options[id="studytype"]').find('option[lang="' + settings.language + '"][value="'+ settings.studyType +'"]').text(); 
-									var invitationText = $(xml).find('text[id="invitation"]').find('content[lang="' + settings.language + '"]').text().replaceAll("STUDY_TYPE", studyTypeText).replaceAll("STUDY_TITLE", '\"' + settings.studyTitle + '\"') + " ";
-									var researcherNamesText = makeCommaSeparatedString(studentResearcherNames, $(xml).find('text[id="andListing"]').find('content[lang="' + settings.language + '"]').text(), (settings.language == "en"));
-									var experimenterText = $(xml).find('text[id="experimenter"]').find('content[lang="' + settings.language + '"]').text().replaceAll("STUDY_TYPE", studyTypeText).replaceAll("RESEARCHER_NAMES", researcherNamesText).replaceAll("PRINCIPAL_INVESTIGATOR", settings.principalInvestigator).replaceAll("INSTITUTION_NAME", institutionNameText) + " ";
-									
-									var studyDateRangeText = $(xml).find('text[id="list_daterange"]').find('content[lang="' + settings.language + '"]').text().replaceAll("SAMPLE_SIZE", settings.participants).replaceAll("STUDY_DATE_BEGIN", moment(settings.startDate).locale(settings.language).format(settings.language == "de" ? "DD.MM.YYYY" : "YYYY-MM-DD")).replaceAll("STUDY_DATE_END", moment(settings.endDate).locale(settings.language).format(settings.language == "de" ? "DD.MM.YYYY" : "YYYY-MM-DD")) + " ";
-									var fundingText = (settings.funding != "") ? $(xml).find('text[id="funding"]').find('content[lang="' + settings.language + '"]').text().replaceAll("FUNDING_ORGANIZATION", settings.funding) + " " : " ";
-									var pleaseNoteText = $(xml).find('text[id="pleasenote"]').find('content[lang="' + settings.language + '"]').text();
-									
-									var voluntaryText = $(xml).find('text[id="list_voluntary"]').find('content[lang="' + settings.language + '"]').text();
-									var demographicsRecordingText = $(xml).find('text[id="list_demographics"]').find('content[lang="' + settings.language + '"]').text();
-									if(settings.recordContactData) 
-									demographicsRecordingText += ", " + $(xml).find('text[id="list_contact_data"]').find('content[lang="' + settings.language + '"]').text()
-									// $(xml).find('text[id="andListing"]').find('content[lang="' + settings.language + '"]').text() + 
-									var compensationText = $(xml).find('text[id="' + settings.compensation + '"]').find('content[lang="' + settings.language + '"]').text(); 
-									var repeatedParticipationText = (settings.repeatedParticipationAllowed == false) ? $(xml).find('text[id="repeated_participation"]').find('content[lang="' + settings.language + '"]').text() + " " : "";
-									//var sampleSizeText = $(xml).find('text[id="sample_explanation"]').find('content[lang="' + settings.language + '"]').text().replaceAll("SAMPLE_SIZE", settings.participants) + " ";
-									var compensationIfParticpatedText = (settings.compensation != "compensation_none") ? $(xml).find('text[id="compensation_stillreceive"]').find('content[lang="' + settings.language + '"]').text() + " " : "";
-									var houseAndHygenieText = (settings.studyType == "userstudy" || settings.studyType == "qualitativestudy") ? $(xml).find('text[id="house_and_hygenie"]').find('content[lang="' + settings.language + '"]').text().replaceAll("INSTITUTION_NAME", institutionNameText) + " " : "";
-									var takenOutText = $(xml).find('text[id="takenout"]').find('content[lang="' + settings.language + '"]').text().replaceAll("STUDY_TYPE", studyTypeText);
-									var studyConfirmationText = $(xml).find('text[id="study_confirmation"]').find('content[lang="' + settings.language + '"]').text();
-									
-									var studyDurationText = $(xml).find('text[id="study_duration"]').find('content[lang="' + settings.language + '"]').text().replaceAll("STUDY_TYPE", studyTypeText) + " " + settings.studyDuration + " " + $(xml).find('options[id="durationunits"]').find('option[lang="' + settings.language + '"][value="'+ settings.studyDurationUnit +'"]').text();
-									var recordingsText = (records.length != 0) ? ($(xml).find('text[id="list_start_wewill"]').find('content[lang="' + settings.language + '"]').text() + " " + makeCommaSeparatedString(records, $(xml).find('text[id="andListing"]').find('content[lang="' + settings.language + '"]').text(), (settings.language == "en"))) : "";
-									
-									var gdprRelated = $(xml).find('text[id="list_GDPR"]').find('content[lang="' + settings.language + '"]').text();
-									var notGdprRelated = $(xml).find('text[id="list_no_GDPR"]').find('content[lang="' + settings.language + '"]').text();
-									var noGdprRelated = $(xml).find('text[id="list_no_GDPR"]').find('content[lang="' + settings.language + '"]').text();
-									
-									var dataAnomyizationPublicationText = $(xml).find('text[id="list_data_anonymization"]').find('content[lang="' + settings.language + '"]').text() + " ";
-									
-									dataAnomyizationPublicationText = dataAnomyizationPublicationText.replaceAll("DSGVO_RELATED", $(xml).find('text[id="list_' + (settings.anonymization != "full" ? "GDPR" : "no_GDPR")  + '"]').find('content[lang="' + settings.language + '"]').text());
-									dataAnomyizationPublicationText = dataAnomyizationPublicationText.replaceAll("DATA_ANONYMIZED", $(xml).find('text[id="list_' + settings.anonymization  + '_anonymization"]').find('content[lang="' + settings.language + '"]').text());
-									dataAnomyizationPublicationText = dataAnomyizationPublicationText.replaceAll("DATASET_PUBLISHED", $(xml).find('text[id="list_' + settings.publication  + '_publication"]').find('content[lang="' + settings.language + '"]').text());
-									dataAnomyizationPublicationText = dataAnomyizationPublicationText.replaceAll("CONCLUSION_DRAWN", $(xml).find('text[id="list_' + settings.anonymization  + '_conclusions"]').find('content[lang="' + settings.language + '"]').text());
-									dataAnomyizationPublicationText = dataAnomyizationPublicationText.replaceAll("  "," ");
-									
-									//var dataRawDataText = $(xml).find('text[id="privacy_material"]').find('content[lang="' + settings.language + '"]').text() + " ";
-									
-									var responsibilitesText = $(xml).find('text[id="alternative_and_informations"]').find('content[lang="' + settings.language + '"]').text().replaceAll("ETHICS_RESPONSIBILIES", makeCommaSeparatedString(ethicalResponsibilities, $(xml).find('text[id="orListing"]').find('content[lang="' + settings.language + '"]').text(), (settings.language == "en")));
-									var purposeAndGoalText = settings.studyPurpose + " " + settings.studyGoal + " " + $(xml).find('text[id="achieving_the_goal"]').find('content[lang="' + settings.language + '"]').text();
-									var procedureBeginText = $(xml).find('text[id="begin_procedure"]').find('content[lang="' + settings.language + '"]').text();
-									
-									var studyRisksText = $(xml).find('text[id="study_risks"]').find('content[lang="' + settings.language + '"]').text().replaceAll("STUDY_TYPE", studyTypeText) + " ";
-									var studyBenefitsText = $(xml).find('text[id="study_benefits"]').find('content[lang="' + settings.language + '"]').text().replaceAll("STUDY_TYPE", studyTypeText) + " ";
-									var uncomfortableQuestionsText = (settings.uncomfortableQuestions == true) ? $(xml).find('text[id="questions_discomfort"]').find('content[lang="' + settings.language + '"]').text() + " " : "";
-									var unlikelyDiscomfortRisksText = (settings.studyType != "onlinestudy") ? $(xml).find('text[id="unlikely_discomfort"]').find('content[lang="' + settings.language + '"]').text() + " " : "";
-									var ifDiscomfortRisksText = (settings.studyType != "onlinestudy") ? $(xml).find('text[id="if_discomfort"]').find('content[lang="' + settings.language + '"]').text() + " " : "";
-									var injuriesAndInsurances = (settings.studyType != "onlinestudy") ? $(xml).find('text[id="injuries_and_insurances"]').find('content[lang="' + settings.language + '"]').text().replaceAll("INSTITUTION_NAME", institutionNameText) + " " : "";
-									var riskOfDataleaks = $(xml).find('text[id="risk_of_dataleaks"]').find('content[lang="' + settings.language + '"]').text().replaceAll("INSTITUTION_NAME", institutionNameText) + " ";
-									
-									// Headings
-									var purposeAndGoalTitle = $(xml).find('text[id="section_purpose_and_goal"]').find('content[lang="' + settings.language + '"]').text()
-									var risksAndBenefitsTitle = $(xml).find('text[id="risks_and_benefits"]').find('content[lang="' + settings.language + '"]').text();
-									var participationTitle = $(xml).find('text[id="section_participation_and_compensation"]').find('content[lang="' + settings.language + '"]').text();
-									var procedureTitle = $(xml).find('text[id="section_procedure"]').find('content[lang="' + settings.language + '"]').text();
-									var dataprototectionAndConfidentialityTitle = $(xml).find('text[id="dataprototection_and_confidentiality"]').find('content[lang="' + settings.language + '"]').text();
-									var identificationTitle = $(xml).find('text[id="section_identification"]').find('content[lang="' + settings.language + '"]').text();
-									var agreementTitle = $(xml).find('text[id="section_agreement"]').find('content[lang="' + settings.language + '"]').text();
-									
-									var legalBasisText = $(xml).find('text[id="legal_basis"]').find('content[lang="' + settings.language + '"]').text() + " ";
-									//legalBasisText = legalBasisText
-									legalBasisText = legalBasisText.replaceAll("DELETE_DATA", (settings.dateOfDataEnd > 0) ? $(xml).find('text[id="data_time_limit"]').find('content[lang="' + settings.language + '"]').text().replaceAll("NUMBER_YEARS", settings.dateOfDataEnd) : $(xml).find('text[id="data_no_time_limit"]').find('content[lang="' + settings.language + '"]').text());
-									legalBasisText = legalBasisText.replaceAll("RECORDING_LIST", makeCommaSeparatedString(records, $(xml).find('text[id="andListing"]').find('content[lang="' + settings.language + '"]').text(), (settings.language == "en")));
-									//var legalBasisText =  $(xml).find('text[id="legal_basis"]').find('content[lang="' + settings.language + '"]').text().replaceAll("ANONYMITY_STATEMENT", $(xml).find('text[id="standard_use_' + settings.anonymization + '_anonymity"]').find('content[lang="' + settings.language + '"]').text().replaceAll("DELETE_DATA", (settings.dateOfDataEnd > 0) ? $(xml).find('text[id="data_time_limit"]').find('content[lang="' + settings.language + '"]').text().replaceAll("NUMBER_YEARS", settings.dateOfDataEnd) : $(xml).find('text[id="data_no_time_limit"]').find('content[lang="' + settings.language + '"]').text()).replaceAll("RECORDING_LIST", makeCommaSeparatedString(records, $(xml).find('text[id="andListing"]').find('content[lang="' + settings.language + '"]').text(), (settings.language == "en")) + " ";
-									
-									var dataRawDataText = (settings.anonymization != "no") ? $(xml).find('text[id="privacy_material"]').find('content[lang="' + settings.language + '"]').text() + " " : "";
-									
-									var rawData = []; 
-									if(settings.recordInput || settings.recordMotion || settings.recordEye || settings.recordPhysio || settings.recordBodyMetrics) rawData.push($(xml).find('text[id="data_raw_data"]').find('content[lang="' + settings.language + '"]').text());
-									if(settings.recordPhotos || settings.recordVideos || settings.recordAudio || settings.recordScreen) rawData.push($(xml).find('text[id="data_media_data"]').find('content[lang="' + settings.language + '"]').text());
-									if(settings.recordNotes || settings.studyType == "qualitativestudy" || settings.studyType == "fieldstudy" || settings.uncomfortableQuestions) rawData.push($(xml).find('text[id="data_interview_protocols"]').find('content[lang="' + settings.language + '"]').text());
-									if(settings.recordNotes || settings.studyType == "qualitativestudy" || settings.studyType == "fieldstudy" ) rawData.push($(xml).find('text[id="data_observation_protocols"]').find('content[lang="' + settings.language + '"]').text());
-									
-									var accessDataText = $(xml).find('text[id="data_' + settings.publication + '_public_access"]').find('content[lang="' + settings.language + '"]').text() + " ";
-									accessDataText = accessDataText.replaceAll("RAW_DATA", makeCommaSeparatedString(rawData, $(xml).find('text[id="andListing"]').find('content[lang="' + settings.language + '"]').text(), (settings.language == "en")));
-									
-									if(settings.anonymization != "no"){
-										if((settings.recordPhotos || settings.recordVideos || settings.recordAudio || settings.recordScreen)) 
-										accessDataText += $(xml).find('text[id="data_images_confidentiality"]').find('content[lang="' + settings.language + '"]').text() + " "; 
-										if(settings.recordNotes || settings.studyType == "qualitativestudy" || settings.studyType == "fieldstudy" || settings.uncomfortableQuestions) 
-										accessDataText += $(xml).find('text[id="data_interviews_confidentiality"]').find('content[lang="' + settings.language + '"]').text() + " "; 
-									}
-									
-									if(settings.recordContactData) accessDataText += $(xml).find('text[id="data_yes_contact"]').find('content[lang="' + settings.language + '"]').text() + " ";
-									else accessDataText += $(xml).find('text[id="data_no_contact"]').find('content[lang="' + settings.language + '"]').text() + " ";
-									
-									
-									accessDataText = accessDataText.replaceAll("DATA_ANONYMIZED", $(xml).find('text[id="standard_use_' + settings.anonymization + '_anonymity"]').find('content[lang="' + settings.language + '"]').text());
-									accessDataText = accessDataText.replaceAll("CONCLUSION_DRAWN", $(xml).find('text[id="list_' + settings.anonymization + '_conclusions"]').find('content[lang="' + settings.language + '"]').text());
-									
-									var dateDeleteRawData = (settings.dateOfDataEnd > 0) ? $(xml).find('text[id="data_time_limit"]').find('content[lang="' + settings.language + '"]').text()  + " " : $(xml).find('text[id="data_no_time_limit"]').find('content[lang="' + settings.language + '"]').text() + " "; 
-									dateDeleteRawData = dateDeleteRawData.replaceAll("NUMBER_YEARS", settings.dateOfDataEnd); 
-									
-									//if((settings.publication == "full" || settings.anonymization == "full") && settings.dateOfDataEnd > 0) dateDeleteRawData = ""; 
-									
-									//var confidentialText = $(xml).find('text[id="data_confidentiality"]').find('content[lang="' + settings.language + '"]').text() + " ";
-									var publicationText = $(xml).find('text[id="data_publication"]').find('content[lang="' + settings.language + '"]').text() + " ";
-									
-									var finalDataProtectionAndConfidentialityText = publicationText + legalBasisText + dateDeleteRawData + accessDataText;
-									finalDataProtectionAndConfidentialityText.replaceAll("  "," ");
-									
-									var questionsToResearchersText = $(xml).find('text[id="questions_to_researchers"]').find('content[lang="' + settings.language + '"]').text();
-									var retainingConsentText = $(xml).find('text[id="retaining_consent"]').find('content[lang="' + settings.language + '"]').text();
-									var studentResearcherText = $(xml).find('text[id="student_researcher"]').find('content[lang="' + settings.language + '"]').text();
-									var principalInvestigatorText = $(xml).find('text[id="principal_investigator"]').find('content[lang="' + settings.language + '"]').text();
-									
-									var understandingConsentText = $(xml).find('text[id="understanding_consent"]').find('content[lang="' + settings.language + '"]').text().replaceAll("STUDY_TYPE", studyTypeText);
-									var agreeingConsentText = $(xml).find('text[id="agreeing_consent_' + settings.anonymization + '_anonymous"]').find('content[lang="' + settings.language + '"]').text().replaceAll("STUDY_TYPE", studyTypeText).replaceAll("RECORDING_LIST", makeCommaSeparatedString(records, $(xml).find('text[id="andListing"]').find('content[lang="' + settings.language + '"]').text(), (settings.language == "en")));
-									
-									var locationDateText = $(xml).find('text[id="location_date"]').find('content[lang="' + settings.language + '"]').text();
-									var printedNameText = $(xml).find('text[id="printed_name"]').find('content[lang="' + settings.language + '"]').text();
-									var subjectSignatureText = $(xml).find('text[id="subject_signature"]').find('content[lang="' + settings.language + '"]').text();
-									
-									var htmlText = "";
-									// Creating the document
-									sectionCounter = 1;
-									docTitle(doc, informedConsentTitleText);
-									htmlText += "<div class='pageBreak'><h1>" + informedConsentTitleText + "</h1>"
-									// First paragraph
-									docParagraph(doc, "", invitationText + experimenterText + studyDateRangeText + fundingText + pleaseNoteText);
-									htmlText += "<p class='small-padding'>" + invitationText + experimenterText + studyDateRangeText + fundingText + pleaseNoteText + "</p>";
-									
-									docBulletPoint(doc, "bullet", voluntaryText);
-									docBulletPoint(doc, "bullet", studyDurationText); 
-									docBulletPoint(doc, "bullet", compensationText);
-									docBulletPoint(doc, "bullet", demographicsRecordingText);
-									docBulletPoint(doc, "bullet", recordingsText);
-									docBulletPoint(doc, "bullet", dataAnomyizationPublicationText) ; 
-									//if(settings.anonymization != "no") docBulletPoint(doc, "bullet", dataRawDataText) ; 
-									
-									htmlText += "<ul class='small-padding'><li>" + voluntaryText + "</li><li>" + demographicsRecordingText + "</li><li>" + studyDurationText + "</li><li>" + compensationText + "</li><li>" + recordingsText + "</li><li>" + dataAnomyizationPublicationText + "</li></ul>";
-									
-									docParagraph(doc, "", responsibilitesText);
-									htmlText += "<p>" + responsibilitesText + "</p>";
-									
-									sectionCounter = 1; 
-									// Purpose and Goal
-									docParagraph(doc, sectionCounter + ". " + purposeAndGoalTitle, purposeAndGoalText); 
-									htmlText += "<h2>" + sectionCounter + ". " + purposeAndGoalTitle + "</h2>";
-									htmlText += "<p>" + purposeAndGoalText + "</p>";
-									
-									sectionCounter++;
-									// Participation and Compensation 
-									docParagraph(doc, sectionCounter + ". " + participationTitle, takenOutText + compensationIfParticpatedText + houseAndHygenieText + repeatedParticipationText); 
-									htmlText += "<h2>" + sectionCounter + ". " + participationTitle + "</h2>";
-									htmlText += "<p>" + takenOutText + compensationIfParticpatedText + houseAndHygenieText + repeatedParticipationText + "</p>";
-									lineCounter -= 2;
-									
-									sectionCounter++;
-									// Procedure
-									docParagraph(doc, sectionCounter + ". " + procedureTitle, procedureBeginText)
-									htmlText += "<h2>" + sectionCounter + ". " + procedureTitle + "</h2>";
-									htmlText += "<p class='small-padding'>" + procedureBeginText + "</p>";
-									htmlText += "<ol class='small-padding'>";
-									
-									var procedureStepCounter = 1;
-									$(".procedureStepText").each(function(index, item){ 
-										if($(item).val() != "") {
-											docBulletPoint(doc, procedureStepCounter + "", $(item).val());
-											htmlText += "<li>" + $(item).val() + "</li>";
-											procedureStepCounter++;
-										}
-									}) 
-									htmlText += "</ol>";
-									
-									docParagraph(doc, "", studyConfirmationText);
-									lineCounter += 1;
-									htmlText += "<p>" + studyConfirmationText + "</p>";
-									
-									sectionCounter++;
-									// Risks and Benefits
-									docParagraph(doc, sectionCounter + ". " + risksAndBenefitsTitle, studyRisksText + ((uncomfortableQuestions == false) ? uncomfortableQuestionsText : unlikelyDiscomfortRisksText) + ifDiscomfortRisksText + injuriesAndInsurances + riskOfDataleaks + compensationText + ". " + ((settings.compensation != "compensation_none") ? studyBenefitsText : "")); 
-									lineCounter -= 2;
-									htmlText += "<h2>" + sectionCounter + ". " + risksAndBenefitsTitle + "</h2>";
-									htmlText += "<p>" + studyRisksText + ((uncomfortableQuestions == false) ? uncomfortableQuestionsText : unlikelyDiscomfortRisksText) + ifDiscomfortRisksText + injuriesAndInsurances + riskOfDataleaks + compensationText + ". " + ((settings.compensation != "compensation_none") ? studyBenefitsText : "") + "</p>";
-									
-									sectionCounter++;
-									// Data Protection and Confidentiality
-									docParagraph(doc, sectionCounter + ". " + dataprototectionAndConfidentialityTitle, finalDataProtectionAndConfidentialityText);
-									lineCounter -= 5;
-									htmlText += "<h2>" + sectionCounter + ". " + dataprototectionAndConfidentialityTitle + "</h2>";
-									htmlText += "<p>" + finalDataProtectionAndConfidentialityText + "</p>";
-									
-									sectionCounter++;
-									//Identification of Investigators
-									docParagraph(doc, sectionCounter + ". " + identificationTitle, questionsToResearchersText);
-									htmlText += "<h2>" + sectionCounter + ". " + identificationTitle + "</h2>";
-									htmlText += "<p class='small-padding'>" + questionsToResearchersText + "</p>";
-									
-									doc2ColParagraph(doc, studentResearcherText + "\n" + studentResearcherList.toString().replaceAll(",", "") + institutionNameText, principalInvestigatorText + "\n" + settings.principalInvestigator + "\n" + settings.principalInvestigatorEmail + "\n" +institutionNameText + "\n" + institutionStreetText + "\n" + institutionZIPandCityText + ", " + institutionCountryText, 10);
-									lineCounter -= 1;
-									htmlText += "<div class='row mt-2 mb-2'>";
-									htmlText += "<div class='col-7 ml-1 '><p> " + studentResearcherText + "<br />" + (studentResearcherList.toString().replaceAll("\n","<br />").replaceAll(",", "")) + institutionNameText + "</p></div>";
-									htmlText += "<div class='col-4 ml-1 '><p> " + principalInvestigatorText + "<br />" + settings.principalInvestigator + "<br />" + settings.principalInvestigatorEmail + "<br />" + institutionNameText + "<br />" + institutionStreetText + "<br />" + institutionZIPandCityText + ", " + institutionCountryText + "</p></div>";
-									htmlText += "</div>";
-									
-									sectionCounter++;
-									// Informed Consent and Agreement 
-									if(settings.studyType != "onlinestudy"){
-										docParagraph(doc, sectionCounter + ". " + agreementTitle, retainingConsentText); 
-										docBulletPoint(doc, "square", understandingConsentText);
-										docBulletPoint(doc, "square", agreeingConsentText); 
-										doc2ColParagraph(doc, "\n\n_________________________________________________\n" + locationDateText + "\n\n\n_________________________________________________\n"+printedNameText, "\n\n\n\n\n\n_________________________________________________\n" + subjectSignatureText, 0);
-										
-										htmlText += "<h2>" + sectionCounter + ". " + identificationTitle + "</h2>";
-										htmlText += "<p>" + retainingConsentText + "</p>"
-										htmlText += "<table class='mb-2'>";
-										htmlText += "<tr><th><img src='img/square.jpg' width='15px' height='15px'/></th><th><p class='mb-2'>" + understandingConsentText + "</p></th></tr>"; 
-										htmlText += "<tr><th><img src='img/square.jpg' width='15px' height='15px'/></th><th><p class='mb-2'>" + agreeingConsentText + "</p></th></tr>";
-										htmlText += "</table>";
-										
-										htmlText += "<table class='mt-2'>";
-										htmlText += "<tr><th class='padding-r'><br /><br />_________________________________________________&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th><th></th></tr>";
-										htmlText += "<tr><th>Printed Name of Subject</th><th></th></tr>";
-										htmlText += "<tr><th class='padding-r'><br /><br />_________________________________________________&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th><th><br /><br />_________________________________________________</th></tr>";
-										htmlText += "<tr><th>Signature of Subject</th><th>Location, Date</th></tr>";
-										htmlText += "</table>";
-									}
-									
-									// Generate
-									var options = {
-										pdfOpenParams: {
-											pagemode: "thumbs",
-											navpanes: 0,
-											toolbar: 1,
-											statusbar: 1,
-											view: "FitV"
-										}
-									}; 
-									PDFObject.embed(doc.output("datauristring"), "#previewPDF", options); 
-									htmlText += "</div>"
-									$("#previewHTML").html(htmlText);
-								} 
-							}
-						};
-					})();
-					
-					const isNumeric = (str) => { 
-						if (typeof str != "string") return false // we only process strings! 
-						return !isNaN(str) && // use type coercion to parse the _entirety_ of the string (`parseFloat` alone does not do this)...
-						!isNaN(parseFloat(str)) // ...and ensure strings of whitespace fail
-					}
-					
-					const docTitle = (doc, str) => { 
-						doc.setFontSize(18);
-						doc.setFont("Roboto-Medium", "normal");
-						doc.text(str, leftMargin, topMargin + lineCounter);
-						lineCounter += 7;
-					} 
-					
-					const docParagraph = (doc, heading, paragraph) => { 
-						doc.setFontSize(fontSize);
-						doc.setFont("Roboto-Regular", "normal");
-						lineCounter += paragraphMarginTop;
-						var lines = doc.splitTextToSize(paragraph, textWidth); 
-						var tmpLineCounter = lineCounter + (lines.length * 4) + paragraphMarginBottom + 5;
-						
-						if(tmpLineCounter > pageHeight){
-							console.log("Adding page...");
-							doc.addPage("a4","p");
-							lineCounter = 0;
-							tmpLineCounter = 0;
-						}
-						
-						if(heading != "") {
-							doc.setFontSize(12); 
-							doc.setFont("Roboto-Medium", "normal");
-							lineCounter += 1;
-							doc.text(heading, leftMargin, topMargin + lineCounter);
-							lineCounter += 5;
-						}
-						
-						doc.setFontSize(fontSize);
-						doc.setFont("Roboto-Regular", "normal");	
-						doc.text(lines, leftMargin, topMargin + lineCounter);
-						lineCounter += (lines.length * 4) + 1;
-					}
-					
-					const docBulletPoint = (doc, enumSign, paragraph) => { 
-						if(paragraph != ""){
-							doc.setFontSize(fontSize);
-							doc.setFont("Roboto-Regular", "normal");
-							
-							var bulletPointSymbol = "";
-							var lines = doc.splitTextToSize(paragraph, textWidth - bulletPointIndent - (enumSign == "square" ? 2 : 0)); 
-							var tmpLineCounter = lineCounter + (lines.length * lineMultiplier) + paragraphMarginBottom + 5; 
-							if(tmpLineCounter > pageHeight){
-								console.log("Adding page...");
-								doc.addPage("a4","p");
-								lineCounter = 0;
-							} 
-							if (enumSign == "square") doc.rect(leftMargin + 2, topMargin + lineCounter - 2.5, 3, 3);
-							if (isNumeric(enumSign)) doc.text(" " + enumSign + ".", leftMargin, topMargin + lineCounter);
-							if (enumSign == "bullet") doc.text(" " + "\u2022", leftMargin, topMargin + lineCounter);
-							
-							doc.setFontSize(9);
-							doc.setFont("Roboto-Regular", "normal");	
-							doc.text(lines, leftMargin + bulletPointIndent - (enumSign == "square" ? 0 : 1), topMargin + lineCounter);
-							lineCounter += (lines.length * lineMultiplier) + (enumSign == "square" ? 1 : 1);
-						}
-					} 
-					
-					const doc2ColParagraph = (doc, firstColumn, secondColumn, columnShift) => { 
-						doc.setFontSize(fontSize);
-						doc.setFont("Roboto-Regular", "normal");
-						
-						var linesfirstColumn = doc.splitTextToSize(firstColumn, textWidth / 2 + columnShift); 
-						var tmpLineCounterFirstColumn = (linesfirstColumn.length * lineMultiplier) + 1;
-						var linesSecondColumn = doc.splitTextToSize(secondColumn, textWidth / 2 + columnShift); 
-						var tmpLineCounterSecondColumn = (linesSecondColumn.length * lineMultiplier) + 1;
-						var tmpLineCounter = lineCounter + 5 + ((tmpLineCounterSecondColumn > tmpLineCounterFirstColumn) ? tmpLineCounterSecondColumn : tmpLineCounterFirstColumn);
-						
-						if(tmpLineCounter > pageHeight){
-							console.log("Adding page...");
-							doc.addPage("a4","p");
-							lineCounter = 0;
-						}
-						
-						doc.setFontSize(fontSize);
-						doc.setFont("Roboto-Regular", "normal");	
-						doc.text(linesfirstColumn, leftMargin + 2 , topMargin + lineCounter);
-						doc.setFontSize(fontSize);
-						doc.setFont("Roboto-Regular", "normal");	
-						doc.text(linesSecondColumn, leftMargin + 2 + textWidth / 2 + columnShift, topMargin + lineCounter); 
-						lineCounter += (((linesfirstColumn.length > linesSecondColumn.length) ? linesfirstColumn.length : linesSecondColumn.length) * lineMultiplier) + 1;
-					}
-				}});
-			});
-			
-			const generate = () => { 
-				jsPDFEditor.init();
-				if(jsPDF && jsPDF.version) {
-					$('#dversion').text('Version ' + jsPDF.version); 
-				} 
-				
-				jsPDFEditor.update();
-				if($("select[name='selectInstitution']").val() == "other"){
-					if($("input[name='otherInstitution']").val().replaceAll(/(\b, \b|\b,\b)/g, ", ").split(", ").length != 4) {
-						alert("Please enter Name, Street, ZIP Code and City, Country of your institution(comma-separated)");
-						$("select[name='otherInstitution']").focus();
-						return; 
-					} 
-				}
-				$('#input').hide();
-				$('#results').show();
-				$('#btnExample').hide();
-				$('#btnGenerate').hide();
-				$('#btnBack').show();
-				$('#btnSave').hide();
-				$('#btnLoad').hide();
-				$("#previewPDF").focus();
-			} 
-			
-			const capitalLetters = (str) => { 
-				str = str.split(" ");
-				for (var i = 0, x = str.length; i < x; i++) {
-					str[i] = str[i][0].toUpperCase() + str[i].substr(1);
-				}
-				return str.join(" ");
-			}
-			const toUppercase = (str) => { 
-				return str.toUpperCase();
-			}
-			
-			const makeCommaSeparatedString = (arr, andSeparator, useOxfordComma) => {
-				const listStart = arr.slice(0, -1).join(', ');
-				const listEnd = arr.slice(-1);
-				const conjunction = arr.length <= 1 ? '' : useOxfordComma && arr.length > 2 ? ', ' + andSeparator + ' ' : ' ' + andSeparator + ' ';
-				return [listStart, listEnd].join(conjunction)
-			}
-			
-		</script>
-		<script type="text/javascript" src="js/jsPDF/pdfobject.min.js"></script>
-	</body>
-</html>	
+  <script type="text/javascript">
+    var debug = true;
+    var jsPDF = window.jspdf.jsPDF;
+    var jsPDFEditor;
+    var lineCounter = 1;
+
+    const topMargin = 25;
+    const leftMargin = 20;
+    const textWidth = 170;
+    const pageHeight = 260;
+    const bulletPointIndent = 8;
+    const paragraphMarginTop = 0.5;
+    const paragraphMarginBottom = 1;
+    const fontSize = 9;
+    const lineMultiplier = 4;
+
+    const maxProcedureSteps = 8;
+    var countProcedureSteps = 1;
+
+    $(document).ready(function () {
+      $.ajax({
+        async: true, crossDomain: false, cache: false, type: "GET", url: "https://hci-studies.org/informed-consent-generator/textsnippets.xml", dataType: "xml", contentType: "application/x-javascript; charset:ISO-8859-1", success: function (xml) {
+
+          $('#btnBack').hide();
+          $('#results').hide();
+
+          const fillUIOptions = () => {
+            $("select[name='selectLanguage']").append(new Option('Please select', ""));
+            $("select[name='selectLanguage']").append(new Option('English', "en"));
+            $("select[name='selectLanguage']").append(new Option('German', "de"));
+
+            $("select[name='selectInstitution']").append(new Option('Please select', ""));
+            $("select[name='selectInstitution']").append(new Option('Frankfurt University of Applied Sciences', "frauas"));
+            $("select[name='selectInstitution']").append(new Option('University of Regensburg', "regensburg"));
+            $("select[name='selectInstitution']").append(new Option('University of Stuttgart', "stuttgart"));
+            $("select[name='selectInstitution']").append(new Option('Other', "other"));
+            $("#otherInstitutionRow").hide();
+
+            $("select[name='selectInstitution']").change(function (e) {
+              if ($("select[name='selectInstitution']").val() == "other") {
+                $("#otherInstitutionRow").show();
+                $("#otherInstitution").focus();
+              } else {
+                $("#otherInstitutionRow").hide();
+              }
+            });
+
+            $("input[type='number']").inputSpinner()
+            $("select[name='selectDurationUnit']").append(new Option('Please select', ""));
+            $("select[name='selectDurationUnit']").append(new Option('Minutes', "minutes"));
+            $("select[name='selectDurationUnit']").append(new Option('Hours', "hours"));
+            $("select[name='selectDurationUnit']").append(new Option('Days', "days"));
+            $("select[name='selectDurationUnit']").append(new Option('Weeks', "weeks"));
+
+            $('#daterangepicker').daterangepicker({
+              opens: 'right',
+              autoApply: true,
+              startDate: moment(new Date()).add(1, 'days'),
+              endDate: moment(new Date()).add(15, 'days'),
+              dateFormat: 'YYYY-MM-DD',
+              locale: { format: 'DD.MM.YYYY' }
+            }, function (start, end, label) {
+              console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+            });
+
+            countProcedureSteps = 1;
+
+            $(".add-textbox").click(function (e) {
+              e.preventDefault();
+              if (countProcedureSteps < maxProcedureSteps) {
+                countProcedureSteps++;
+                $(".textbox-wrapper").append('<div class="input-group mb-1"><input type="text" class="form-control procedureStepText" placeholder="Describe your procedure step" aria-describedby="button-addon2"><button class="btn custom-addStep remove-textbox btn-danger" type="button" id="button-addon2">-</button></div>');
+              }
+              $(".remove-textbox").click(function (e) {
+                e.preventDefault();
+                $(this).parents(".input-group").remove();
+                countProcedureSteps--;
+              });
+            });
+
+            $("select[name='selectStudyType']").append(new Option('Please select', ""));
+            $("select[name='selectStudyType']").append(new Option('Online study (survey, apps, downloads, etc.)', "onlinestudy"));
+            $("select[name='selectStudyType']").append(new Option('User Study (lab study, mixed reality, eye-tracking, etc.)', "userstudy"));
+            $("select[name='selectStudyType']").append(new Option('Field Study (outside the lab, workplaces, in-situ, etc.)', "fieldstudy"));
+            $("select[name='selectStudyType']").append(new Option('Interview (focus groups, expert interviews, use cases, diaries, etc.)', "qualitativestudy"));
+
+            $("select[name='selectAnonymization']").append(new Option('Please select', ""));
+            $("select[name='selectAnonymization']").append(new Option('No - not anonymized', "no"));
+            $("select[name='selectAnonymization']").append(new Option('Yes - pseudoanonymized (recommended)', "pseudo"));
+            $("select[name='selectAnonymization']").append(new Option('Yes - fully anonymized', "full"));
+
+            $("select[name='selectPublication']").append(new Option('Please select', ''));
+            $("select[name='selectPublication']").append(new Option('Including the raw data set', 'full'));
+            $("select[name='selectPublication']").append(new Option('The aggregated results only', 'aggregated'));
+
+            $("select[name='selectDateOfDataEnd']").append(new Option('Please select', ""));
+            $("select[name='selectDateOfDataEnd']").append(new Option('Not specified (not longer than necessary)', 0));
+            $("select[name='selectDateOfDataEnd']").append(new Option('After 1 year', 2));
+            $("select[name='selectDateOfDataEnd']").append(new Option('After 2 years', 2));
+            $("select[name='selectDateOfDataEnd']").append(new Option('After 3 years', 3));
+            $("select[name='selectDateOfDataEnd']").append(new Option('After 4 years', 4));
+            $("select[name='selectDateOfDataEnd']").append(new Option('After 5 years', 5));
+            $("select[name='selectDateOfDataEnd']").append(new Option('After 6 years', 6));
+            $("select[name='selectDateOfDataEnd']").append(new Option('After 8 years', 8));
+            $("select[name='selectDateOfDataEnd']").append(new Option('After 9 years', 9));
+            $("select[name='selectDateOfDataEnd']").append(new Option('After 10 years (e.g., BMBF/DFG)', 10));
+            $("select[name='selectDateOfDataEnd']").append(new Option('After 15 years', 15));
+            $("select[name='selectDateOfDataEnd']").append(new Option('After 20 years', 20));
+
+            $("select[name='selectCompensation']").append(new Option('Please select', ""));
+            $("select[name='selectCompensation']").append(new Option('None', "compensation_none"));
+            $("select[name='selectCompensation']").append(new Option('1 EUR', "compensation_1EUR"));
+            $("select[name='selectCompensation']").append(new Option('5 EUR', "compensation_5EUR"));
+            $("select[name='selectCompensation']").append(new Option('10 EUR', "compensation_10EUR"));
+            $("select[name='selectCompensation']").append(new Option('15 EUR', "compensation_15EUR"));
+            $("select[name='selectCompensation']").append(new Option('20 EUR', "compensation_20EUR"));
+            $("select[name='selectCompensation']").append(new Option('� credit point for the lecture', "compensation_halfcreditpoint"));
+            $("select[name='selectCompensation']").append(new Option('1 credit point for the lecture (e.g., when you need 3 for the lecture)', "compensation_onecreditpoint"));
+
+            $("input[name='setTitle']").attr("placeholder", "Your research title");
+            $("input[name='setOtherInstitution']").attr("placeholder", "Your Institution, Streetname 123, ZIP City, Country");
+            $("input[name='setEthicalComittee'] ").attr("placeholder", "Your review board (keep empty if none)");
+            $("input[name='setPrincipleInvestigator']").attr("placeholder", "The person, who said you should do the study (e.g., Prof. Dr. Valentin Schwind)");
+            $("input[name='setPrincipleInvestigatorEmail']").attr("placeholder", "firstname.lastname@institution.com");
+            $("input[name='setPrincipleInvestigatorEmail']").attr("placeholder", "The e-mail of the person, who said you should do the study");
+            $("input[name='setParticipants']").attr("placeholder", "Insert number");
+            $("input[name='setResearcherNames']").attr("placeholder", "Eva Musterfrau, Max Mustermann, Erika Musterfrau");
+            $("input[name='setResearcherEmails']").attr("placeholder", "eva.musterfrau@stud.fra-uas.de, max.mustermann@stud.fra-uas.de, erika.musterfrau@stud.fra-uas.de");
+            $("input[name='setFunding']").attr("placeholder", "Your funding (keep empty if none)");
+            $("input[name='setPurpose']").attr("placeholder", "Explain the purpose of this research. ");
+            $("input[name='setGoal']").attr("placeholder", "Explain the goal of this research. ");
+          }
+
+          fillUIOptions();
+
+          $("#btnExample").click(function () {
+            $("select[name='selectLanguage']").val("de");
+            $("select[name='selectInstitution']").val("frauas");
+            $("input[name='recordDemographics']").prop("checked", true);
+            $("input[name='recordContactData']").prop("checked", true);
+            $("input[name='recordPhotos']").prop("checked", true);
+            $("input[name='recordMotion']").prop("checked", true);
+            $("input[name='recordVideos']").prop("checked", true);
+            $("input[name='recordEye']").prop("checked", true);
+            $("input[name='recordPhysio']").prop("checked", true);
+            $("input[name='recordAudio']").prop("checked", true);
+            $("input[name='recordNotes']").prop("checked", true);
+            $("input[name='recordScreen']").prop("checked", true);
+            $("input[name='recordBodyMetrics']").prop("checked", true);
+            $("select[name='selectDateOfDataEnd']").val(10);
+            $("input[name='uncomfortableQuestions']").prop("checked", true);
+            $("select[name='selectStudyType']").val("userstudy");
+            $("select[name='selectAnonymization']").val("pseudo");
+            $("select[name='selectPublication']").val("full");
+            $("select[name='selectCompensation']").val("compensation_onecreditpoint");
+            $("input[name='setTitle'] ").val("Fitts' Task in Virtual Reality using Avatar Hands");
+            $("input[name='setPrincipleInvestigator']").val("Prof. Dr. Valentin Schwind");
+            $("input[name='setPrincipleInvestigatorEmail']").val("valentin.schwind@fb2.fra-uas.de");
+            $("input[name='participants']").val("36");
+            $("input[name='setResearcherNames']").val("Eva Musterfrau, Max Mustermann, Erika Musterfrau");
+            $("input[name='setResearcherEmails']").val("eva.musterfrau@stud.fra-uas.de, max.mustermann@stud.fra-uas.de, erika.musterfrau@stud.fra-uas.de");
+            $("input[name='setEthicalComittee']").val("FRA-UAS");
+            $("input[name='setFunding']").val("BMBF KI@FRA-UAS");
+            $("input[name='setDuration']").val("45");
+            $("input[name='setParticipants']").val("32");
+            $("select[name='selectDurationUnit']").val("minutes");
+            $("input[name='setPurpose']").val("Der Zweck dieser Forschung ist es, die menschliche Leistung bei einer Zeigeaufgabe mit verschiedenen Avatar-H�nden in der virtuellen Realit�t zu untersuchen.");
+            $("input[name='setGoal']").val("Das Ziel dieser Forschung ist es zu verstehen, wie visuelle Signale des eigenen K�rpers in das eigene K�rperschema integriert werden.");
+
+            var procedureSteps = ["Sie bekommen ein Virtual-Reality-Headset und werden mit virtuellen H�nden in die Umgebung eingef�hrt", "Sie werden mit dem Zeigefinger auf rot-markierte Ziele tippen", "Sie sehen einen virtuellen Fragebogen", "Diesen Vorgang wiederholen Sie mit allen H�nden", "Am Ende gibt es ein zusammenfassendes Interview"];
+            $(".remove-textbox").click();
+            for (var i = 0; i < procedureSteps.length - 1; i++) {
+              $(".add-textbox").click();
+            }
+            $(".procedureStepText").each(function (index, item) {
+              $(item).val(procedureSteps[index]);
+            });
+          });
+
+          $("#btnBack").click(function () {
+            $('#btnBack').hide();
+            $('#btnGenerate').show();
+            $('#btnExample').show();
+            $('#btnSave').show();
+            $('#btnLoad').show();
+            $('#input').show();
+            $('#results').hide();
+          });
+
+          $("#btnSave").click(function () {
+            data = getSettings();
+            var file = new File([JSON.stringify(data)], { type: "text/json;charset=utf-8" });
+            saveAs(file, "informed-consent-settings.txt");
+          });
+
+          $("#btnLoad").click(function () {
+            $("#fileInput").click();
+          });
+
+          $('#fileInput').hide();
+
+          $('#fileInput').change(function (e) {
+            var [file] = document.querySelector('#fileInput').files;
+            var reader = new FileReader();
+
+            reader.addEventListener("load", () => {
+              settings = JSON.parse(reader.result);
+              setSettings(settings);
+              $("#fileInput").val(null);
+            }, false);
+
+            if (file) {
+              reader.readAsText(file);
+            }
+          });
+
+          const getSettings = () => {
+            var settings = {};
+            settings.institution = $("select[name='selectInstitution']").val();
+            settings.otherInstitution = $("input[name='otherInstitution']").val();
+            settings.studyType = $("select[name='selectStudyType']").val();
+            settings.language = $('select[name="selectLanguage"').val();
+            settings.studyTitle = $("input[name='setTitle']").val();
+            settings.studyPurpose = $("input[name='setPurpose']").val();
+            settings.studyGoal = $("input[name='setGoal']").val();
+            settings.startDate = $('#daterangepicker').data('daterangepicker').startDate.format('MM/DD/YYYY');
+            settings.endDate = $('#daterangepicker').data('daterangepicker').endDate.format('MM/DD/YYYY');
+            settings.studyDuration = $("input[name='setDuration']").val();
+            settings.studyDurationUnit = $("select[name='selectDurationUnit']").val();
+            settings.participants = $("input[name='setParticipants']").val();
+            settings.repeatedParticipationAllowed = $("input[name='repeatedParticipationAllowed']").prop('checked');
+            settings.uncomfortableQuestions = $("input[name='uncomfortableQuestions']").prop('checked');
+            settings.recordDemographics = $("input[name='recordDemographics']").prop('checked');
+            settings.recordContactData = $("input[name='recordContactData']").prop('checked');
+            settings.recordInput = $("input[name='recordInput']").prop('checked');
+            settings.recordPhotos = $("input[name='recordPhotos']").prop('checked');
+            settings.recordVideos = $("input[name='recordVideos']").prop('checked');
+            settings.recordAudio = $("input[name='recordAudio']").prop('checked');
+            settings.recordMotion = $("input[name='recordMotion']").prop('checked');
+            settings.recordEye = $("input[name='recordEye']").prop('checked');
+            settings.recordPhysio = $("input[name='recordPhysio']").prop('checked');
+            settings.recordScreen = $("input[name='recordScreen']").prop('checked');
+            settings.recordBodyMetrics = $("input[name='recordBodyMetrics']").prop('checked');
+            settings.recordNotes = $("input[name='recordNotes']").prop('checked');
+            settings.compensation = $("select[name='selectCompensation']").val();
+            var procedureStepArray = [];
+            $(".procedureStepText").each(function (index, item) {
+              if ($(item).val() != "") procedureStepArray.push($(item).val());
+            });
+            settings.procedureSteps = procedureStepArray;
+            settings.dateOfDataEnd = $("select[name='selectDateOfDataEnd']").val();
+            settings.anonymization = $("select[name='selectAnonymization']").val();
+            settings.publication = $("select[name='selectPublication']").val();
+            settings.principalInvestigator = $("input[name='setPrincipleInvestigator']").val();
+            settings.principalInvestigatorEmail = $("input[name='setPrincipleInvestigatorEmail']").val();
+            settings.researcherNames = $("input[name='setResearcherNames']").val();
+            settings.researcherEmails = $("input[name='setResearcherEmails']").val();
+            settings.funding = $("input[name='setFunding']").val();
+            settings.ethicalComittee = $("input[name='setEthicalComittee']").val();
+            return settings;
+          }
+
+          const setSettings = (settings) => {
+            $("select[name='selectInstitution'] ").val(settings.institution);
+            $("input[name='otherInstitution']").val(settings.otherInstitution);
+            if (settings.otherInstitution != "") $("#otherInstitutionRow").show();
+            else $("#otherInstitutionRow").hide();
+            $("select[name='selectStudyType'] ").val(settings.studyType);
+            $("select[name='selectLanguage'] ").val(settings.language);
+            $("input[name='setTitle'] ").val(settings.studyTitle);
+            $("input[name='setPurpose'] ").val(settings.studyPurpose);
+            $("input[name='setGoal'] ").val(settings.studyGoal);
+            $('#daterangepicker').daterangepicker({
+              startDate: moment(new Date(settings.startDate)),
+              endDate: moment(new Date(settings.endDate)),
+              dateFormat: 'YYYY-MM-DD',
+              locale: { format: 'DD.MM.YYYY' }
+            });
+            $("input[name='setDuration']").val(settings.studyDuration);
+            $("select[name='selectDurationUnit']").val(settings.studyDurationUnit);
+            $("input[name='setParticipants']").val(settings.participants);
+            $("input[name='repeatedParticipationAllowed']").prop('checked', settings.repeatedParticipationAllowed);
+            $("input[name='uncomfortableQuestions']").prop("checked", settings.uncomfortableQuestions);
+            $("input[name='recordDemographics']").prop('checked', settings.recordDemographics);
+            $("input[name='recordContactData']").prop('checked', settings.recordContactData);
+            $("input[name='recordInput']").prop('checked', settings.recordInput);
+            $("input[name='recordPhotos']").prop('checked', settings.recordPhotos);
+            $("input[name='recordVideos']").prop('checked', settings.recordVideos);
+            $("input[name='recordAudio']").prop('checked', settings.recordAudio);
+            $("input[name='recordMotion']").prop('checked', settings.recordMotion);
+            $("input[name='recordEye']").prop('checked', settings.recordEye);
+            $("input[name='recordPhysio']").prop('checked', settings.recordPhysio);
+            $("input[name='recordScreen']").prop('checked', settings.recordScreen);
+            $("input[name='recordBodyMetrics']").prop('checked', settings.recordBodyMetrics);
+            $("input[name='recordNotes']").prop('checked', settings.recordNotes);
+            $("select[name='selectCompensation']").val(settings.compensation);
+            for (var i = 0; i < settings.procedureSteps.length - 1; i++) $(".add-textbox").click();
+            $(".procedureStepText").each(function (index, item) {
+              $(item).val(settings.procedureSteps[index]);
+            });
+            $("select[name='selectDateOfDataEnd']").val(settings.dateOfDataEnd);
+            $("select[name='selectAnonymization']").val(settings.anonymization);
+            $("select[name='selectPublication']").val(settings.publication);
+            $("input[name='setPrincipleInvestigator']").val(settings.principalInvestigator);
+            $("input[name='setPrincipleInvestigatorEmail']").val(settings.principalInvestigatorEmail);
+            $("input[name='setResearcherNames']").val(settings.researcherNames);
+            $("input[name='setResearcherEmails']").val(settings.researcherEmails);
+            $("input[name='setFunding']").val(settings.funding);
+            $("input[name='setEthicalComittee']").val(settings.ethicalComittee);
+          }
+
+
+          var pdfText = includeRobotoFontNormal;
+          pdfText += includeRobotoFontMedium;
+
+          jsPDFEditor = (function () {
+            return {
+              init: function () {
+                jsPDFEditor.update();
+              },
+              update: function (skipEval) {
+                //setTimeout(function() {
+                lineCounter = 0;
+                var doc = new jsPDF();
+                eval("try{" + pdfText + "} catch(e) { console.error(e.message,e.stack,e); }");
+                if (typeof doc !== "undefined") {
+                  console.log(lineCounter);
+                  var sectionCounter = 0;
+
+                  settings = getSettings();
+                  console.log(settings);
+
+                  var institutionNameText = "";
+                  var institutionStreetText = "";
+                  var institutionZIPandCityText = "";
+                  var institutionCountryText = "";
+
+                  if (settings.institution == "other") {
+                    institutionNameText = settings.otherInstitution.replaceAll(/(\b, \b|\b,\b)/g, ", ").split(", ")[0];
+                    institutionStreetText = settings.otherInstitution.replaceAll(/(\b, \b|\b,\b)/g, ", ").split(", ")[1];
+                    institutionZIPandCityText = settings.otherInstitution.replaceAll(/(\b, \b|\b,\b)/g, ", ").split(", ")[2];
+                    institutionCountryText = settings.otherInstitution.replaceAll(/(\b, \b|\b,\b)/g, ", ").split(", ")[3];
+                  } else {
+                    institutionNameText = $(xml).find('options[id="institutions"]').find('option[lang="' + settings.language + '"][value="' + settings.institution + '"]').text().replaceAll(/(\b, \b|\b,\b)/g, ", ").split(", ")[0];
+                    institutionStreetText = $(xml).find('options[id="institutions"]').find('option[lang="' + settings.language + '"][value="' + settings.institution + '"]').text().replaceAll(/(\b, \b|\b,\b)/g, ", ").split(", ")[1];
+                    institutionZIPandCityText = $(xml).find('options[id="institutions"]').find('option[lang="' + settings.language + '"][value="' + settings.institution + '"]').text().replaceAll(/(\b, \b|\b,\b)/g, ", ").split(", ")[2];
+                    institutionCountryText = $(xml).find('options[id="institutions"]').find('option[lang="' + settings.language + '"][value="' + settings.institution + '"]').text().replaceAll(/(\b, \b|\b,\b)/g, ", ").split(", ")[3];
+                  }
+
+                  var records = [];
+                  if (settings.recordInput) records.push($(xml).find('text[id="list_recordInput"]').find('content[lang="' + settings.language + '"]').text());
+                  if (settings.recordPhotos) records.push($(xml).find('text[id="list_recordPhotos"]').find('content[lang="' + settings.language + '"]').text());
+                  if (settings.recordVideos) records.push($(xml).find('text[id="list_recordVideos"]').find('content[lang="' + settings.language + '"]').text());
+                  if (settings.recordAudio) records.push($(xml).find('text[id="list_recordAudio"]').find('content[lang="' + settings.language + '"]').text());
+                  if (settings.recordMotion) records.push($(xml).find('text[id="list_recordMotion"]').find('content[lang="' + settings.language + '"]').text());
+                  if (settings.recordEye) records.push($(xml).find('text[id="list_recordEye"]').find('content[lang="' + settings.language + '"]').text());
+                  if (settings.recordPhysio) records.push($(xml).find('text[id="list_recordPhysio"]').find('content[lang="' + settings.language + '"]').text());
+                  if (settings.recordScreen) records.push($(xml).find('text[id="list_recordScreen"]').find('content[lang="' + settings.language + '"]').text());
+                  if (settings.recordBodyMetrics) records.push($(xml).find('text[id="list_recordBodyMetrics"]').find('content[lang="' + settings.language + '"]').text());
+                  if (settings.recordNotes) records.push($(xml).find('text[id="list_recordNotes"]').find('content[lang="' + settings.language + '"]').text());
+
+                  ethicalResponsibilities = [];
+                  ethicalResponsibilities.push(settings.principalInvestigator);
+                  if (settings.ethicalComittee != "") ethicalResponsibilities.push($(xml).find('text[id="ethicalCommiteeOf"]').find('content[lang="' + settings.language + '"]').text() + " " + settings.ethicalComittee);
+
+                  var studentResearcherList = [];
+                  var studentResearcherNames = settings.researcherNames.replaceAll(/(\b, \b|\b,\b)/g, ", ").split(", ");
+                  var studentResearcherEmails = settings.researcherEmails.replaceAll(/(\b, \b|\b,\b)/g, ", ").split(", ");
+
+                  if (studentResearcherNames.length == studentResearcherEmails.length) {
+                    for (var studentResearcher in studentResearcherNames) {
+                      studentResearcherList.push((studentResearcherNames[studentResearcher] + " (" + studentResearcherEmails[studentResearcher] + ")\n"));
+                    }
+                  } else {
+                    alert("Number of researchers and the number of emails provided do not match. Please check for comma-separated values.");
+                    return;
+                  }
+
+                  // Texts
+                  var informedConsentTitleText = $(xml).find('text[id="title"]').find('content[lang="' + settings.language + '"]').text();
+                  var studyTypeText = $(xml).find('options[id="studytype"]').find('option[lang="' + settings.language + '"][value="' + settings.studyType + '"]').text();
+                  var invitationText = $(xml).find('text[id="invitation"]').find('content[lang="' + settings.language + '"]').text().replaceAll("STUDY_TYPE", studyTypeText).replaceAll("STUDY_TITLE", '\"' + settings.studyTitle + '\"') + " ";
+                  var researcherNamesText = makeCommaSeparatedString(studentResearcherNames, $(xml).find('text[id="andListing"]').find('content[lang="' + settings.language + '"]').text(), (settings.language == "en"));
+                  var experimenterText = $(xml).find('text[id="experimenter"]').find('content[lang="' + settings.language + '"]').text().replaceAll("STUDY_TYPE", studyTypeText).replaceAll("RESEARCHER_NAMES", researcherNamesText).replaceAll("PRINCIPAL_INVESTIGATOR", settings.principalInvestigator).replaceAll("INSTITUTION_NAME", institutionNameText) + " ";
+
+                  var studyDateRangeText = $(xml).find('text[id="list_daterange"]').find('content[lang="' + settings.language + '"]').text().replaceAll("SAMPLE_SIZE", settings.participants).replaceAll("STUDY_DATE_BEGIN", moment(settings.startDate).locale(settings.language).format(settings.language == "de" ? "DD.MM.YYYY" : "YYYY-MM-DD")).replaceAll("STUDY_DATE_END", moment(settings.endDate).locale(settings.language).format(settings.language == "de" ? "DD.MM.YYYY" : "YYYY-MM-DD")) + " ";
+                  var fundingText = (settings.funding != "") ? $(xml).find('text[id="funding"]').find('content[lang="' + settings.language + '"]').text().replaceAll("FUNDING_ORGANIZATION", settings.funding) + " " : " ";
+                  var pleaseNoteText = $(xml).find('text[id="pleasenote"]').find('content[lang="' + settings.language + '"]').text();
+
+                  var voluntaryText = $(xml).find('text[id="list_voluntary"]').find('content[lang="' + settings.language + '"]').text();
+                  var demographicsRecordingText = $(xml).find('text[id="list_demographics"]').find('content[lang="' + settings.language + '"]').text();
+                  if (settings.recordContactData)
+                    demographicsRecordingText += ", " + $(xml).find('text[id="list_contact_data"]').find('content[lang="' + settings.language + '"]').text()
+                  // $(xml).find('text[id="andListing"]').find('content[lang="' + settings.language + '"]').text() + 
+                  var compensationText = $(xml).find('text[id="' + settings.compensation + '"]').find('content[lang="' + settings.language + '"]').text();
+                  var repeatedParticipationText = (settings.repeatedParticipationAllowed == false) ? $(xml).find('text[id="repeated_participation"]').find('content[lang="' + settings.language + '"]').text() + " " : "";
+                  //var sampleSizeText = $(xml).find('text[id="sample_explanation"]').find('content[lang="' + settings.language + '"]').text().replaceAll("SAMPLE_SIZE", settings.participants) + " ";
+                  var compensationIfParticpatedText = (settings.compensation != "compensation_none") ? $(xml).find('text[id="compensation_stillreceive"]').find('content[lang="' + settings.language + '"]').text() + " " : "";
+                  var houseAndHygenieText = (settings.studyType == "userstudy" || settings.studyType == "qualitativestudy") ? $(xml).find('text[id="house_and_hygenie"]').find('content[lang="' + settings.language + '"]').text().replaceAll("INSTITUTION_NAME", institutionNameText) + " " : "";
+                  var takenOutText = $(xml).find('text[id="takenout"]').find('content[lang="' + settings.language + '"]').text().replaceAll("STUDY_TYPE", studyTypeText);
+                  var studyConfirmationText = $(xml).find('text[id="study_confirmation"]').find('content[lang="' + settings.language + '"]').text();
+
+                  var studyDurationText = $(xml).find('text[id="study_duration"]').find('content[lang="' + settings.language + '"]').text().replaceAll("STUDY_TYPE", studyTypeText) + " " + settings.studyDuration + " " + $(xml).find('options[id="durationunits"]').find('option[lang="' + settings.language + '"][value="' + settings.studyDurationUnit + '"]').text();
+                  var recordingsText = (records.length != 0) ? ($(xml).find('text[id="list_start_wewill"]').find('content[lang="' + settings.language + '"]').text() + " " + makeCommaSeparatedString(records, $(xml).find('text[id="andListing"]').find('content[lang="' + settings.language + '"]').text(), (settings.language == "en"))) : "";
+
+                  var gdprRelated = $(xml).find('text[id="list_GDPR"]').find('content[lang="' + settings.language + '"]').text();
+                  var notGdprRelated = $(xml).find('text[id="list_no_GDPR"]').find('content[lang="' + settings.language + '"]').text();
+                  var noGdprRelated = $(xml).find('text[id="list_no_GDPR"]').find('content[lang="' + settings.language + '"]').text();
+
+                  var dataAnomyizationPublicationText = $(xml).find('text[id="list_data_anonymization"]').find('content[lang="' + settings.language + '"]').text() + " ";
+
+                  dataAnomyizationPublicationText = dataAnomyizationPublicationText.replaceAll("DSGVO_RELATED", $(xml).find('text[id="list_' + (settings.anonymization != "full" ? "GDPR" : "no_GDPR") + '"]').find('content[lang="' + settings.language + '"]').text());
+                  dataAnomyizationPublicationText = dataAnomyizationPublicationText.replaceAll("DATA_ANONYMIZED", $(xml).find('text[id="list_' + settings.anonymization + '_anonymization"]').find('content[lang="' + settings.language + '"]').text());
+                  dataAnomyizationPublicationText = dataAnomyizationPublicationText.replaceAll("DATASET_PUBLISHED", $(xml).find('text[id="list_' + settings.publication + '_publication"]').find('content[lang="' + settings.language + '"]').text());
+                  dataAnomyizationPublicationText = dataAnomyizationPublicationText.replaceAll("CONCLUSION_DRAWN", $(xml).find('text[id="list_' + settings.anonymization + '_conclusions"]').find('content[lang="' + settings.language + '"]').text());
+                  dataAnomyizationPublicationText = dataAnomyizationPublicationText.replaceAll("  ", " ");
+
+                  //var dataRawDataText = $(xml).find('text[id="privacy_material"]').find('content[lang="' + settings.language + '"]').text() + " ";
+
+                  var responsibilitesText = $(xml).find('text[id="alternative_and_informations"]').find('content[lang="' + settings.language + '"]').text().replaceAll("ETHICS_RESPONSIBILIES", makeCommaSeparatedString(ethicalResponsibilities, $(xml).find('text[id="orListing"]').find('content[lang="' + settings.language + '"]').text(), (settings.language == "en")));
+                  var purposeAndGoalText = settings.studyPurpose + " " + settings.studyGoal + " " + $(xml).find('text[id="achieving_the_goal"]').find('content[lang="' + settings.language + '"]').text();
+                  var procedureBeginText = $(xml).find('text[id="begin_procedure"]').find('content[lang="' + settings.language + '"]').text();
+
+                  var studyRisksText = $(xml).find('text[id="study_risks"]').find('content[lang="' + settings.language + '"]').text().replaceAll("STUDY_TYPE", studyTypeText) + " ";
+                  var studyBenefitsText = $(xml).find('text[id="study_benefits"]').find('content[lang="' + settings.language + '"]').text().replaceAll("STUDY_TYPE", studyTypeText) + " ";
+                  var uncomfortableQuestionsText = (settings.uncomfortableQuestions == true) ? $(xml).find('text[id="questions_discomfort"]').find('content[lang="' + settings.language + '"]').text() + " " : "";
+                  var unlikelyDiscomfortRisksText = (settings.studyType != "onlinestudy") ? $(xml).find('text[id="unlikely_discomfort"]').find('content[lang="' + settings.language + '"]').text() + " " : "";
+                  var ifDiscomfortRisksText = (settings.studyType != "onlinestudy") ? $(xml).find('text[id="if_discomfort"]').find('content[lang="' + settings.language + '"]').text() + " " : "";
+                  var injuriesAndInsurances = (settings.studyType != "onlinestudy") ? $(xml).find('text[id="injuries_and_insurances"]').find('content[lang="' + settings.language + '"]').text().replaceAll("INSTITUTION_NAME", institutionNameText) + " " : "";
+                  var riskOfDataleaks = $(xml).find('text[id="risk_of_dataleaks"]').find('content[lang="' + settings.language + '"]').text().replaceAll("INSTITUTION_NAME", institutionNameText) + " ";
+
+                  // Headings
+                  var purposeAndGoalTitle = $(xml).find('text[id="section_purpose_and_goal"]').find('content[lang="' + settings.language + '"]').text()
+                  var risksAndBenefitsTitle = $(xml).find('text[id="risks_and_benefits"]').find('content[lang="' + settings.language + '"]').text();
+                  var participationTitle = $(xml).find('text[id="section_participation_and_compensation"]').find('content[lang="' + settings.language + '"]').text();
+                  var procedureTitle = $(xml).find('text[id="section_procedure"]').find('content[lang="' + settings.language + '"]').text();
+                  var dataprototectionAndConfidentialityTitle = $(xml).find('text[id="dataprototection_and_confidentiality"]').find('content[lang="' + settings.language + '"]').text();
+                  var identificationTitle = $(xml).find('text[id="section_identification"]').find('content[lang="' + settings.language + '"]').text();
+                  var agreementTitle = $(xml).find('text[id="section_agreement"]').find('content[lang="' + settings.language + '"]').text();
+
+                  var legalBasisText = $(xml).find('text[id="legal_basis"]').find('content[lang="' + settings.language + '"]').text() + " ";
+                  //legalBasisText = legalBasisText
+                  legalBasisText = legalBasisText.replaceAll("DELETE_DATA", (settings.dateOfDataEnd > 0) ? $(xml).find('text[id="data_time_limit"]').find('content[lang="' + settings.language + '"]').text().replaceAll("NUMBER_YEARS", settings.dateOfDataEnd) : $(xml).find('text[id="data_no_time_limit"]').find('content[lang="' + settings.language + '"]').text());
+                  legalBasisText = legalBasisText.replaceAll("RECORDING_LIST", makeCommaSeparatedString(records, $(xml).find('text[id="andListing"]').find('content[lang="' + settings.language + '"]').text(), (settings.language == "en")));
+                  //var legalBasisText =  $(xml).find('text[id="legal_basis"]').find('content[lang="' + settings.language + '"]').text().replaceAll("ANONYMITY_STATEMENT", $(xml).find('text[id="standard_use_' + settings.anonymization + '_anonymity"]').find('content[lang="' + settings.language + '"]').text().replaceAll("DELETE_DATA", (settings.dateOfDataEnd > 0) ? $(xml).find('text[id="data_time_limit"]').find('content[lang="' + settings.language + '"]').text().replaceAll("NUMBER_YEARS", settings.dateOfDataEnd) : $(xml).find('text[id="data_no_time_limit"]').find('content[lang="' + settings.language + '"]').text()).replaceAll("RECORDING_LIST", makeCommaSeparatedString(records, $(xml).find('text[id="andListing"]').find('content[lang="' + settings.language + '"]').text(), (settings.language == "en")) + " ";
+
+                  var dataRawDataText = (settings.anonymization != "no") ? $(xml).find('text[id="privacy_material"]').find('content[lang="' + settings.language + '"]').text() + " " : "";
+
+                  var rawData = [];
+                  if (settings.recordInput || settings.recordMotion || settings.recordEye || settings.recordPhysio || settings.recordBodyMetrics) rawData.push($(xml).find('text[id="data_raw_data"]').find('content[lang="' + settings.language + '"]').text());
+                  if (settings.recordPhotos || settings.recordVideos || settings.recordAudio || settings.recordScreen) rawData.push($(xml).find('text[id="data_media_data"]').find('content[lang="' + settings.language + '"]').text());
+                  if (settings.recordNotes || settings.studyType == "qualitativestudy" || settings.studyType == "fieldstudy" || settings.uncomfortableQuestions) rawData.push($(xml).find('text[id="data_interview_protocols"]').find('content[lang="' + settings.language + '"]').text());
+                  if (settings.recordNotes || settings.studyType == "qualitativestudy" || settings.studyType == "fieldstudy") rawData.push($(xml).find('text[id="data_observation_protocols"]').find('content[lang="' + settings.language + '"]').text());
+
+                  var accessDataText = $(xml).find('text[id="data_' + settings.publication + '_public_access"]').find('content[lang="' + settings.language + '"]').text() + " ";
+                  accessDataText = accessDataText.replaceAll("RAW_DATA", makeCommaSeparatedString(rawData, $(xml).find('text[id="andListing"]').find('content[lang="' + settings.language + '"]').text(), (settings.language == "en")));
+
+                  if (settings.anonymization != "no") {
+                    if ((settings.recordPhotos || settings.recordVideos || settings.recordAudio || settings.recordScreen))
+                      accessDataText += $(xml).find('text[id="data_images_confidentiality"]').find('content[lang="' + settings.language + '"]').text() + " ";
+                    if (settings.recordNotes || settings.studyType == "qualitativestudy" || settings.studyType == "fieldstudy" || settings.uncomfortableQuestions)
+                      accessDataText += $(xml).find('text[id="data_interviews_confidentiality"]').find('content[lang="' + settings.language + '"]').text() + " ";
+                  }
+
+                  if (settings.recordContactData) accessDataText += $(xml).find('text[id="data_yes_contact"]').find('content[lang="' + settings.language + '"]').text() + " ";
+                  else accessDataText += $(xml).find('text[id="data_no_contact"]').find('content[lang="' + settings.language + '"]').text() + " ";
+
+
+                  accessDataText = accessDataText.replaceAll("DATA_ANONYMIZED", $(xml).find('text[id="standard_use_' + settings.anonymization + '_anonymity"]').find('content[lang="' + settings.language + '"]').text());
+                  accessDataText = accessDataText.replaceAll("CONCLUSION_DRAWN", $(xml).find('text[id="list_' + settings.anonymization + '_conclusions"]').find('content[lang="' + settings.language + '"]').text());
+
+                  var dateDeleteRawData = (settings.dateOfDataEnd > 0) ? $(xml).find('text[id="data_time_limit"]').find('content[lang="' + settings.language + '"]').text() + " " : $(xml).find('text[id="data_no_time_limit"]').find('content[lang="' + settings.language + '"]').text() + " ";
+                  dateDeleteRawData = dateDeleteRawData.replaceAll("NUMBER_YEARS", settings.dateOfDataEnd);
+
+                  //if((settings.publication == "full" || settings.anonymization == "full") && settings.dateOfDataEnd > 0) dateDeleteRawData = ""; 
+
+                  //var confidentialText = $(xml).find('text[id="data_confidentiality"]').find('content[lang="' + settings.language + '"]').text() + " ";
+                  var publicationText = $(xml).find('text[id="data_publication"]').find('content[lang="' + settings.language + '"]').text() + " ";
+
+                  var finalDataProtectionAndConfidentialityText = publicationText + legalBasisText + dateDeleteRawData + accessDataText;
+                  finalDataProtectionAndConfidentialityText.replaceAll("  ", " ");
+
+                  var questionsToResearchersText = $(xml).find('text[id="questions_to_researchers"]').find('content[lang="' + settings.language + '"]').text();
+                  var retainingConsentText = $(xml).find('text[id="retaining_consent"]').find('content[lang="' + settings.language + '"]').text();
+                  var studentResearcherText = $(xml).find('text[id="student_researcher"]').find('content[lang="' + settings.language + '"]').text();
+                  var principalInvestigatorText = $(xml).find('text[id="principal_investigator"]').find('content[lang="' + settings.language + '"]').text();
+
+                  var understandingConsentText = $(xml).find('text[id="understanding_consent"]').find('content[lang="' + settings.language + '"]').text().replaceAll("STUDY_TYPE", studyTypeText);
+                  var agreeingConsentText = $(xml).find('text[id="agreeing_consent_' + settings.anonymization + '_anonymous"]').find('content[lang="' + settings.language + '"]').text().replaceAll("STUDY_TYPE", studyTypeText).replaceAll("RECORDING_LIST", makeCommaSeparatedString(records, $(xml).find('text[id="andListing"]').find('content[lang="' + settings.language + '"]').text(), (settings.language == "en")));
+
+                  var locationDateText = $(xml).find('text[id="location_date"]').find('content[lang="' + settings.language + '"]').text();
+                  var printedNameText = $(xml).find('text[id="printed_name"]').find('content[lang="' + settings.language + '"]').text();
+                  var subjectSignatureText = $(xml).find('text[id="subject_signature"]').find('content[lang="' + settings.language + '"]').text();
+
+                  var htmlText = "";
+                  // Creating the document
+                  sectionCounter = 1;
+                  docTitle(doc, informedConsentTitleText);
+                  htmlText += "<div class='pageBreak'><h1>" + informedConsentTitleText + "</h1>"
+                  // First paragraph
+                  docParagraph(doc, "", invitationText + experimenterText + studyDateRangeText + fundingText + pleaseNoteText);
+                  htmlText += "<p class='small-padding'>" + invitationText + experimenterText + studyDateRangeText + fundingText + pleaseNoteText + "</p>";
+
+                  docBulletPoint(doc, "bullet", voluntaryText);
+                  docBulletPoint(doc, "bullet", studyDurationText);
+                  docBulletPoint(doc, "bullet", compensationText);
+                  docBulletPoint(doc, "bullet", demographicsRecordingText);
+                  docBulletPoint(doc, "bullet", recordingsText);
+                  docBulletPoint(doc, "bullet", dataAnomyizationPublicationText);
+                  //if(settings.anonymization != "no") docBulletPoint(doc, "bullet", dataRawDataText) ; 
+
+                  htmlText += "<ul class='small-padding'><li>" + voluntaryText + "</li><li>" + demographicsRecordingText + "</li><li>" + studyDurationText + "</li><li>" + compensationText + "</li><li>" + recordingsText + "</li><li>" + dataAnomyizationPublicationText + "</li></ul>";
+
+                  docParagraph(doc, "", responsibilitesText);
+                  htmlText += "<p>" + responsibilitesText + "</p>";
+
+                  sectionCounter = 1;
+                  // Purpose and Goal
+                  docParagraph(doc, sectionCounter + ". " + purposeAndGoalTitle, purposeAndGoalText);
+                  htmlText += "<h2>" + sectionCounter + ". " + purposeAndGoalTitle + "</h2>";
+                  htmlText += "<p>" + purposeAndGoalText + "</p>";
+
+                  sectionCounter++;
+                  // Participation and Compensation 
+                  docParagraph(doc, sectionCounter + ". " + participationTitle, takenOutText + compensationIfParticpatedText + houseAndHygenieText + repeatedParticipationText);
+                  htmlText += "<h2>" + sectionCounter + ". " + participationTitle + "</h2>";
+                  htmlText += "<p>" + takenOutText + compensationIfParticpatedText + houseAndHygenieText + repeatedParticipationText + "</p>";
+                  lineCounter -= 2;
+
+                  sectionCounter++;
+                  // Procedure
+                  docParagraph(doc, sectionCounter + ". " + procedureTitle, procedureBeginText)
+                  htmlText += "<h2>" + sectionCounter + ". " + procedureTitle + "</h2>";
+                  htmlText += "<p class='small-padding'>" + procedureBeginText + "</p>";
+                  htmlText += "<ol class='small-padding'>";
+
+                  var procedureStepCounter = 1;
+                  $(".procedureStepText").each(function (index, item) {
+                    if ($(item).val() != "") {
+                      docBulletPoint(doc, procedureStepCounter + "", $(item).val());
+                      htmlText += "<li>" + $(item).val() + "</li>";
+                      procedureStepCounter++;
+                    }
+                  })
+                  htmlText += "</ol>";
+
+                  docParagraph(doc, "", studyConfirmationText);
+                  lineCounter += 1;
+                  htmlText += "<p>" + studyConfirmationText + "</p>";
+
+                  sectionCounter++;
+                  // Risks and Benefits
+                  docParagraph(doc, sectionCounter + ". " + risksAndBenefitsTitle, studyRisksText + ((uncomfortableQuestions == false) ? uncomfortableQuestionsText : unlikelyDiscomfortRisksText) + ifDiscomfortRisksText + injuriesAndInsurances + riskOfDataleaks + compensationText + ". " + ((settings.compensation != "compensation_none") ? studyBenefitsText : ""));
+                  lineCounter -= 2;
+                  htmlText += "<h2>" + sectionCounter + ". " + risksAndBenefitsTitle + "</h2>";
+                  htmlText += "<p>" + studyRisksText + ((uncomfortableQuestions == false) ? uncomfortableQuestionsText : unlikelyDiscomfortRisksText) + ifDiscomfortRisksText + injuriesAndInsurances + riskOfDataleaks + compensationText + ". " + ((settings.compensation != "compensation_none") ? studyBenefitsText : "") + "</p>";
+
+                  sectionCounter++;
+                  // Data Protection and Confidentiality
+                  docParagraph(doc, sectionCounter + ". " + dataprototectionAndConfidentialityTitle, finalDataProtectionAndConfidentialityText);
+                  lineCounter -= 5;
+                  htmlText += "<h2>" + sectionCounter + ". " + dataprototectionAndConfidentialityTitle + "</h2>";
+                  htmlText += "<p>" + finalDataProtectionAndConfidentialityText + "</p>";
+
+                  sectionCounter++;
+                  //Identification of Investigators
+                  docParagraph(doc, sectionCounter + ". " + identificationTitle, questionsToResearchersText);
+                  htmlText += "<h2>" + sectionCounter + ". " + identificationTitle + "</h2>";
+                  htmlText += "<p class='small-padding'>" + questionsToResearchersText + "</p>";
+
+                  doc2ColParagraph(doc, studentResearcherText + "\n" + studentResearcherList.toString().replaceAll(",", "") + institutionNameText, principalInvestigatorText + "\n" + settings.principalInvestigator + "\n" + settings.principalInvestigatorEmail + "\n" + institutionNameText + "\n" + institutionStreetText + "\n" + institutionZIPandCityText + ", " + institutionCountryText, 10);
+                  lineCounter -= 1;
+                  htmlText += "<div class='row mt-2 mb-2'>";
+                  htmlText += "<div class='col-7 ml-1 '><p> " + studentResearcherText + "<br />" + (studentResearcherList.toString().replaceAll("\n", "<br />").replaceAll(",", "")) + institutionNameText + "</p></div>";
+                  htmlText += "<div class='col-4 ml-1 '><p> " + principalInvestigatorText + "<br />" + settings.principalInvestigator + "<br />" + settings.principalInvestigatorEmail + "<br />" + institutionNameText + "<br />" + institutionStreetText + "<br />" + institutionZIPandCityText + ", " + institutionCountryText + "</p></div>";
+                  htmlText += "</div>";
+
+                  sectionCounter++;
+                  // Informed Consent and Agreement 
+                  if (settings.studyType != "onlinestudy") {
+                    docParagraph(doc, sectionCounter + ". " + agreementTitle, retainingConsentText);
+                    docBulletPoint(doc, "square", understandingConsentText);
+                    docBulletPoint(doc, "square", agreeingConsentText);
+                    doc2ColParagraph(doc, "\n\n_________________________________________________\n" + locationDateText + "\n\n\n_________________________________________________\n" + printedNameText, "\n\n\n\n\n\n_________________________________________________\n" + subjectSignatureText, 0);
+
+                    htmlText += "<h2>" + sectionCounter + ". " + identificationTitle + "</h2>";
+                    htmlText += "<p>" + retainingConsentText + "</p>"
+                    htmlText += "<table class='mb-2'>";
+                    htmlText += "<tr><th><img src='img/square.jpg' width='15px' height='15px'/></th><th><p class='mb-2'>" + understandingConsentText + "</p></th></tr>";
+                    htmlText += "<tr><th><img src='img/square.jpg' width='15px' height='15px'/></th><th><p class='mb-2'>" + agreeingConsentText + "</p></th></tr>";
+                    htmlText += "</table>";
+
+                    htmlText += "<table class='mt-2'>";
+                    htmlText += "<tr><th class='padding-r'><br /><br />_________________________________________________&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th><th></th></tr>";
+                    htmlText += "<tr><th>Printed Name of Subject</th><th></th></tr>";
+                    htmlText += "<tr><th class='padding-r'><br /><br />_________________________________________________&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th><th><br /><br />_________________________________________________</th></tr>";
+                    htmlText += "<tr><th>Signature of Subject</th><th>Location, Date</th></tr>";
+                    htmlText += "</table>";
+                  }
+
+                  // Generate
+                  var options = {
+                    pdfOpenParams: {
+                      pagemode: "thumbs",
+                      navpanes: 0,
+                      toolbar: 1,
+                      statusbar: 1,
+                      view: "FitV"
+                    }
+                  };
+                  PDFObject.embed(doc.output("datauristring"), "#previewPDF", options);
+                  htmlText += "</div>"
+                  $("#previewHTML").html(htmlText);
+                }
+              }
+            };
+          })();
+
+          const isNumeric = (str) => {
+            if (typeof str != "string") return false // we only process strings! 
+            return !isNaN(str) && // use type coercion to parse the _entirety_ of the string (`parseFloat` alone does not do this)...
+              !isNaN(parseFloat(str)) // ...and ensure strings of whitespace fail
+          }
+
+          const docTitle = (doc, str) => {
+            doc.setFontSize(18);
+            doc.setFont("Roboto-Medium", "normal");
+            doc.text(str, leftMargin, topMargin + lineCounter);
+            lineCounter += 7;
+          }
+
+          const docParagraph = (doc, heading, paragraph) => {
+            doc.setFontSize(fontSize);
+            doc.setFont("Roboto-Regular", "normal");
+            lineCounter += paragraphMarginTop;
+            var lines = doc.splitTextToSize(paragraph, textWidth);
+            var tmpLineCounter = lineCounter + (lines.length * 4) + paragraphMarginBottom + 5;
+
+            if (tmpLineCounter > pageHeight) {
+              console.log("Adding page...");
+              doc.addPage("a4", "p");
+              lineCounter = 0;
+              tmpLineCounter = 0;
+            }
+
+            if (heading != "") {
+              doc.setFontSize(12);
+              doc.setFont("Roboto-Medium", "normal");
+              lineCounter += 1;
+              doc.text(heading, leftMargin, topMargin + lineCounter);
+              lineCounter += 5;
+            }
+
+            doc.setFontSize(fontSize);
+            doc.setFont("Roboto-Regular", "normal");
+            doc.text(lines, leftMargin, topMargin + lineCounter);
+            lineCounter += (lines.length * 4) + 1;
+          }
+
+          const docBulletPoint = (doc, enumSign, paragraph) => {
+            if (paragraph != "") {
+              doc.setFontSize(fontSize);
+              doc.setFont("Roboto-Regular", "normal");
+
+              var bulletPointSymbol = "";
+              var lines = doc.splitTextToSize(paragraph, textWidth - bulletPointIndent - (enumSign == "square" ? 2 : 0));
+              var tmpLineCounter = lineCounter + (lines.length * lineMultiplier) + paragraphMarginBottom + 5;
+              if (tmpLineCounter > pageHeight) {
+                console.log("Adding page...");
+                doc.addPage("a4", "p");
+                lineCounter = 0;
+              }
+              if (enumSign == "square") doc.rect(leftMargin + 2, topMargin + lineCounter - 2.5, 3, 3);
+              if (isNumeric(enumSign)) doc.text(" " + enumSign + ".", leftMargin, topMargin + lineCounter);
+              if (enumSign == "bullet") doc.text(" " + "\u2022", leftMargin, topMargin + lineCounter);
+
+              doc.setFontSize(9);
+              doc.setFont("Roboto-Regular", "normal");
+              doc.text(lines, leftMargin + bulletPointIndent - (enumSign == "square" ? 0 : 1), topMargin + lineCounter);
+              lineCounter += (lines.length * lineMultiplier) + (enumSign == "square" ? 1 : 1);
+            }
+          }
+
+          const doc2ColParagraph = (doc, firstColumn, secondColumn, columnShift) => {
+            doc.setFontSize(fontSize);
+            doc.setFont("Roboto-Regular", "normal");
+
+            var linesfirstColumn = doc.splitTextToSize(firstColumn, textWidth / 2 + columnShift);
+            var tmpLineCounterFirstColumn = (linesfirstColumn.length * lineMultiplier) + 1;
+            var linesSecondColumn = doc.splitTextToSize(secondColumn, textWidth / 2 + columnShift);
+            var tmpLineCounterSecondColumn = (linesSecondColumn.length * lineMultiplier) + 1;
+            var tmpLineCounter = lineCounter + 5 + ((tmpLineCounterSecondColumn > tmpLineCounterFirstColumn) ? tmpLineCounterSecondColumn : tmpLineCounterFirstColumn);
+
+            if (tmpLineCounter > pageHeight) {
+              console.log("Adding page...");
+              doc.addPage("a4", "p");
+              lineCounter = 0;
+            }
+
+            doc.setFontSize(fontSize);
+            doc.setFont("Roboto-Regular", "normal");
+            doc.text(linesfirstColumn, leftMargin + 2, topMargin + lineCounter);
+            doc.setFontSize(fontSize);
+            doc.setFont("Roboto-Regular", "normal");
+            doc.text(linesSecondColumn, leftMargin + 2 + textWidth / 2 + columnShift, topMargin + lineCounter);
+            lineCounter += (((linesfirstColumn.length > linesSecondColumn.length) ? linesfirstColumn.length : linesSecondColumn.length) * lineMultiplier) + 1;
+          }
+        }
+      });
+    });
+
+    const generate = () => {
+      jsPDFEditor.init();
+      if (jsPDF && jsPDF.version) {
+        $('#dversion').text('Version ' + jsPDF.version);
+      }
+
+      jsPDFEditor.update();
+      if ($("select[name='selectInstitution']").val() == "other") {
+        if ($("input[name='otherInstitution']").val().replaceAll(/(\b, \b|\b,\b)/g, ", ").split(", ").length != 4) {
+          alert("Please enter Name, Street, ZIP Code and City, Country of your institution(comma-separated)");
+          $("select[name='otherInstitution']").focus();
+          return;
+        }
+      }
+      $('#input').hide();
+      $('#results').show();
+      $('#btnExample').hide();
+      $('#btnGenerate').hide();
+      $('#btnBack').show();
+      $('#btnSave').hide();
+      $('#btnLoad').hide();
+      $("#previewPDF").focus();
+    }
+
+    const capitalLetters = (str) => {
+      str = str.split(" ");
+      for (var i = 0, x = str.length; i < x; i++) {
+        str[i] = str[i][0].toUpperCase() + str[i].substr(1);
+      }
+      return str.join(" ");
+    }
+    const toUppercase = (str) => {
+      return str.toUpperCase();
+    }
+
+    const makeCommaSeparatedString = (arr, andSeparator, useOxfordComma) => {
+      const listStart = arr.slice(0, -1).join(', ');
+      const listEnd = arr.slice(-1);
+      const conjunction = arr.length <= 1 ? '' : useOxfordComma && arr.length > 2 ? ', ' + andSeparator + ' ' : ' ' + andSeparator + ' ';
+      return [listStart, listEnd].join(conjunction)
+    }
+
+  </script>
+  <script type="text/javascript" src="js/jsPDF/pdfobject.min.js"></script>
+</body>
+</html>
